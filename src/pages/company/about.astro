@@ -4,7 +4,7 @@ import Layout from '../../layouts/Page.astro';
 import profilePic from '../../assets/images/profile.jpg';
 ---
 
-<Layout class="dark">
+<Layout>
   <section class="hero">
     <Container>
       <h1>About Me</h1>
@@ -20,7 +20,7 @@ import profilePic from '../../assets/images/profile.jpg';
           I’m in my final year of BS (Research) at IISc, Bangalore, majoring in Physics with a focus on astrophysics and gravitational physics.
         </p>
         <p>
-          Outside of research and academics, I enjoy astrophotography, tennis, cooking, music and contemplating deep philosophical questions. I try to stay as grounded as possible while (allegedly) day-dreaming in the crazy world of theoretical physics. 
+          Outside of research and academics, I enjoy astrophotography, tennis, cooking, music, and contemplating deep philosophical questions. I try to stay as grounded as possible while (allegedly) day-dreaming in the crazy world of theoretical physics. 
         </p>
         <p>
           Feel free to explore the tabs to get a glimpse of my research, background, art, and other miscellaneous stuff.
@@ -45,50 +45,24 @@ import profilePic from '../../assets/images/profile.jpg';
       </div>
     </section>
   </Container>
-  <!-- Feynman Quote at the end -->
-  <div class="feynman-quote">
-    "I'm smart enough to know that I'm dumb." – Richard Feynman
-  </div>
-</Layout>
-
-
-
-<style>
-  .blog-posts-list__section {
-    margin: var(--section-margin) auto;
-  }
-
-  .page-hero {
-    text-align: center;
-    padding: 3rem 0;
-  }
-
-  /* Feynman quote styling same as home page */
-.feynman-quote {
-  margin: 4rem 0;
-  font-style: italic;
-  text-align: center;
-  color: var(--theme-text); /* normal text color, not grey */
-  font-size: 1.1rem;
-}
-
-.feynman-quote p:last-child {
-  font-style: normal; /* author not italic */
-  font-weight: 500;
-  margin-top: 1.5rem;
-}
-
-</style>
 </Layout>
 
 <style>
-  .hero { text-align: center; padding: 4rem 1rem; background-color: var(--theme-dark-bg, #111); color: var(--theme-light-color, #fff); }
+  .hero { text-align: center; padding: 4rem 1rem; background-color: var(--theme-surface-1); }
   .about-content { margin: 3rem auto; display: grid; grid-template-columns: 1fr; gap: 3rem; }
   .bio h2 { margin-top: 0; }
-  .bio p { line-height: 1.7; font-size: 1.1rem; color: #ccc; }
-  .details h3 { border-bottom: 2px solid var(--theme-accent, #ff6b6b); padding-bottom: 0.5rem; margin-top: 0; margin-bottom: 1rem; }
+  .bio p {
+    line-height: 1.7;
+    font-size: 1.1rem;
+    color: var(--theme-on-bg); /* ✅ Changed from light grey to the main text color */
+  }
+  .details h3 { border-bottom: 2px solid var(--theme-accent); padding-bottom: 0.5rem; margin-top: 0; margin-bottom: 1rem; }
   .details ul { list-style: none; padding: 0; margin: 0 0 2rem 0; }
-  .details ul li { margin-bottom: 0.75rem; font-size: 1.05rem; color: #ccc; }
+  .details ul li {
+    margin-bottom: 0.75rem;
+    font-size: 1.05rem;
+    color: var(--theme-on-bg); /* ✅ Changed from light grey to the main text color */
+  }
   .profile-picture { width: 100%; max-width: 350px; height: auto; aspect-ratio: 1 / 1; object-fit: cover; border-radius: 50%; margin-bottom: 2rem; display: block; margin-left: auto; margin-right: auto; }
   @media(min-width: 768px) {
     .about-content { grid-template-columns: 2fr 1fr; }
