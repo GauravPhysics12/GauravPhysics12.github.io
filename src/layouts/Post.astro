@@ -1,75 +1,54 @@
 ---
-import { Container } from '@components/odyssey-theme';
-import Layout from './Page.astro'; 
-import { generateTagData } from '../utils/helpers';
+import { Container, SEO } from '@components/odyssey-theme';
+import type { Props as SEOProps } from '@components/odyssey-theme/SEO.astro';
+import PageLayout from './Page.astro';
+const { frontmatter } = Astro.props;
 
-const {content: {title, description, publishDate, canonicalURL, featuredImage, tags} } = Astro.props;
-
-let allTagsData = [];
-
-if(tags && tags.length > 0){
-  allTagsData = generateTagData(tags);
-}
-
-const seo = {
-	title,
-	description,
-  publishDate,
-	canonicalURL,
-	image: featuredImage,
+const seo: SEOProps = {
+  title: frontmatter.title,
+  description: frontmatter.description,
+  image: frontmatter.featuredImage,
 };
 ---
-<Layout seo={seo}> 
-  <div class="post-header__container"> 
-    <ul class="post-tags__list">
-      {allTagsData.map(tag => (
-        <li class="post-tags__tag">
-          <a href={`/blog/tags/${tag.slug}`}>
-            {tag.title}
-          </a>
-        </li>
-      ))}
-    </ul>
-    <h1>{title}</h1>
-    <p class="post-layout__date">
-      <time><em>{publishDate}</em></time>
-    </p>
-    {featuredImage && <img class="post-layout__img" src={featuredImage} alt={title} />}
-  </div>
-  <Container narrow>  
-    <article id="article">
-        <slot></slot>
+
+<PageLayout {seo} class="dark">
+  <Container>
+    <article class="post">
+      <header class="post-header">
+        <h1>{frontmatter.title}</h1>
+        <time datetime={frontmatter.publishDate}>
+          {new Date(frontmatter.publishDate).toLocaleDateString('en-US', {
+            year: 'numeric',
+            month: 'long',
+            day: 'numeric',
+          })}
+        </time>
+      </header>
+      <div class="prose">
+        <slot />
+      </div>
     </article>
   </Container>
-</Layout>
+</PageLayout>
 
 <style>
-  #article {
-    padding-bottom: 3rem;
-  }
-  .post-header__container {
-    max-width: var(--theme-blog-post-header-width);
-    margin: 1rem auto;
-    padding: var(--container-padding);
-  }
-  .post-tags__list {
-    margin: 1rem auto;
-    padding: 0;
-    list-style: none;
-  }
-  .post-tags__tag {
-    text-transform: uppercase;
-  }
-  .post-tags__tag a {
-    font-size: var(--font-size-sm);
-    text-decoration: none;
-  }
-  .post-layout__img {
-    margin: 0 auto 1rem auto;
-    border-radius: var(--theme-shape-radius);
-  }
-  .post-layout__date {
-    margin-bottom: 1rem;
-    opacity: 0.84;
+  .post { padding-bottom: 3rem; }
+  .post-header { text-align: center; margin: 3rem 0; }
+  .post-header h1 { font-size: 3.5rem; margin-bottom: 1rem; }
+  .post-header time { color: var(--theme-text-offset); }
+  .prose { max-width: 800px; margin: auto; }
+  .prose :global(h2), .prose :global(h3) { color: var(--theme-accent, #ff6b6b); }
+  .prose :global(p), .prose :global(ul), .prose :global(ol) { font-size: 1.1rem; line-height: 1.8; }
+  .prose :global(a.button) { display: inline-block; background-color: var(--theme-accent, #ff6b6b); color: white; padding: 12px 24px; text-decoration: none; border-radius: 5px; font-weight: bold; transition: background-color 0.2s ease; }
+  .prose :global(a.button:hover) { background-color: var(--theme-accent-hover, #ff4f4f); color: white; }
+
+  /* ADD THIS STYLE TO RESIZE YOUR IMAGES */
+  .prose :global(img) {
+    width: 100%;
+    max-width: 600px; /* Adjust this value to make the image smaller or larger */
+    height: auto;
+    border-radius: 8px;
+    display: block;
+    margin: 2.5rem auto; /* Centers the image */
   }
 </style>

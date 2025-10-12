@@ -1,92 +1,157 @@
 ---
-import { Container, FeatureCard } from '@components/odyssey-theme';
-
+import { Container } from '@components/odyssey-theme';
 import Layout from '../layouts/Page.astro';
-import HomeHeroSection from '../components/sections/heros/HomeHeroSection.astro';
+
+import jwstImage from '../assets/images/Home/ripple.gif';
+import codeImage from '../assets/images/Home/code.jpg';
+import notesImage from '../assets/images/Home/notes.jpg';
+import astroImage from '../assets/images/Home/astro1.jpg';
+import blogImage from '../assets/images/Home/blog.png';
 ---
 
 <Layout>
-	<HomeHeroSection />
-	<Container>
-		<section class="feature-card__section">
-			<h2>Landing Pages</h2>
-			<p>
-				Use one of our landing pages to jumpstart your website or
-				ad campaign.
-			</p>
-			<div class="feature-card__grid">
-				<FeatureCard href="/landing-pages/landing-1" title="Landing Page 1" imgSrc="/assets/images/home/screenshots/landing-1">
-				</FeatureCard>
-				<FeatureCard href="/landing-pages/landing-2" title="Landing Page 2" imgSrc="/assets/images/home/screenshots/landing-2">
-				</FeatureCard>
-			</div>
-		</section>
-	</Container>
+  <section class="hero">
+    <Container>
+      <div class="hero__content">
+        <h1>Gaurav Rachh</h1>
+        <p>"Curious human"</p>
+      </div>
+    </Container>
+  </section>
 
-	<Container>
-		<section class="feature-card__section">
-			<h2>Company Pages</h2>
-			<p>
-				Use one of our prebuilt company pages for your about page, contact page,
-				legal pages, blog posts, etc.
-			</p>
-			<div class="feature-card__grid">
-				<FeatureCard href="/company/about" title="About Page" imgSrc="/assets/images/home/screenshots/about">
-				</FeatureCard>
-				<FeatureCard href="/company/contact" title="Contact Page" imgSrc="/assets/images/home/screenshots/contact">
-				</FeatureCard>
-				<FeatureCard href="/blog/" title="Blog Page" imgSrc="/assets/images/home/screenshots/blog">
-				</FeatureCard>
-				<FeatureCard
-					href="/blog/posts/remote-work-mental-health"
-					title="Blog Post"
-          imgSrc="/assets/images/home/screenshots/blog-post"
-				>
-				</FeatureCard>
-				<FeatureCard
-					href="/company/legal"
-					imgSrc="/assets/images/home/screenshots/legal"
-					title="Legal Page"
-				>
-				</FeatureCard>
-			</div>
-		</section>
-	</Container>
+  <section class="intro-section">
+    <Container>
+      <p>
+        Hello! I'm a final-year physics student at IISc, and this website is a map of my curiosity. It charts a course from my academic work in astrophysics and gravitational physics to my passions for astrophotography, music, and deep philosophical questions. Whether you're here for the science, the art, or a bit of both, I invite you to explore.
+      </p>
+    </Container>
+  </section>
 
-	<Container>
-		<section class="feature-card__section">
-			<h2>Theme Pages</h2>
-			<p>Learn more about how to set up and use the Odyssey Theme.</p>
-			<div class="feature-card__grid">
-				<FeatureCard
-					href="/theme/get-started"
-					imgSrc="/assets/images/home/screenshots/get-started"
-					title="Get Started"
-				>
-				</FeatureCard>
-				<FeatureCard
-					href="/theme/style-guide"
-					imgSrc="/assets/images/home/screenshots/style-guide"
-					title="Style Guide"
-				>
-				</FeatureCard>
-			</div>
-		</section>
-	</Container>
+  <Container>
+    <section class="split-section">
+      <div class="split-section__text">
+        <h2>My Projects</h2>
+        <p>
+          My work ranges from deep theory to computational physics. I've worked on a theory for observing reheated neutron stars, simulated high-energy particle collisions using MadGraph and Pythia, and explored black hole quasi-normal modes. My current master's thesis is focused on Black Hole Perturbation Theory.
+        </p>
+        <a href="/projects" class="button">View All Projects</a>
+      </div>
+      <div class="split-section__image">
+        <img src={jwstImage.src} alt="An image related to the James Webb Space Telescope" />
+      </div>
+    </section>
+
+    <section class="split-section reverse">
+      <div class="split-section__text">
+        <h2>Coding & Software</h2>
+        <p>
+          From numerical simulations to introductory scripts for beginners, this section contains my project codes and tutorials for those new to coding in physics. You'll find Mathematica notebooks, Python scripts, and more.
+        </p>
+        <a href="/codes" class="button">Explore Codes</a>
+      </div>
+      <div class="split-section__image">
+        <img src={codeImage.src} alt="A screenshot of physics code" />
+      </div>
+    </section>
+
+    <section class="split-section">
+      <div class="split-section__text">
+        <h2>Physics Notes</h2>
+        <p>
+          Dive into my personal library of physics notes. This collection ranges from deep dives into core subjects like General Relativity to short articles on fascinating, off-the-beaten-path topics that have captured my curiosity.
+        </p>
+        <a href="/physics-notes" class="button">See All Notes</a>
+      </div>
+      <div class="split-section__image">
+        <img src={notesImage.src} alt="A chalkboard with physics equations" />
+      </div>
+    </section>
+
+    <section class="split-section reverse">
+      <div class="split-section__text">
+        <h2>Astrophotography</h2>
+        <p>
+          Beyond research, I'm passionate about capturing the beauty of the night sky. My gallery showcases celestial objects, and you'll also find tutorials on image processing with software like Siril.
+        </p>
+        <a href="/gallery" class="button">View Gallery</a>
+      </div>
+      <div class="split-section__image">
+        <img src={astroImage.src} alt="A colorful nebula captured with a telescope" />
+      </div>
+    </section>
+
+    <section class="split-section">
+      <div class="split-section__text">
+        <h2>Blog & Ideas</h2>
+        <p>
+          I believe in making complex scientific concepts accessible. In my blog, I break down fascinating topics in physics and share my thoughts on interesting thought experiments and new discoveries.
+        </p>
+        <a href="/blog" class="button">Explore Writings</a>
+      </div>
+      <div class="split-section__image">
+        <img src={blogImage.src} alt="Doodle of people talking for blog" />
+      </div>
+    </section>
+  </Container>
+
+  <!-- Feynman Quote at the end -->
+  <div class="feynman-quote">
+    "The first principle is that you must not fool yourself and you are the easiest person to fool." – Richard Feynman
+  </div>
 </Layout>
 
+
+
 <style>
-	.feature-card__section {
-		margin: var(--section-margin) auto;
-	}
-	.feature-card__grid {
-		display: grid;
-		grid-template-columns: repeat(2, 1fr);
-		gap: var(--theme-grid-gap);
-	}
-	@media (max-width: 768px) {
-		.feature-card__grid {
-			grid-template-columns: 1fr;
-		}
-	}
+  .blog-posts-list__section {
+    margin: var(--section-margin) auto;
+  }
+
+  .page-hero {
+    text-align: center;
+    padding: 3rem 0;
+  }
+
+  /* Feynman quote styling same as home page */
+.feynman-quote {
+  margin: 4rem 0;
+  font-style: italic;
+  text-align: center;
+  color: var(--theme-text); /* normal text color, not grey */
+  font-size: 1.1rem;
+}
+
+.feynman-quote p:last-child {
+  font-style: normal; /* author not italic */
+  font-weight: 500;
+  margin-top: 1.5rem;
+}
+
+</style>
+
+<style>
+  .hero { padding: 6rem 1rem; text-align: center; background-color: var(--theme-bg-offset); }
+  .hero h1 { font-size: 3.5rem; margin-bottom: 1rem; }
+  .hero p { font-size: 1.25rem; color: var(--theme-text-offset); max-width: 600px; margin: auto; }
+  .intro-section { padding: 4rem 1rem; text-align: center; }
+  .intro-section p { max-width: 800px; margin: auto; font-size: 1.2rem; line-height: 1.8; color: var(--theme-text-offset); }
+
+  .split-section { display: grid; grid-template-columns: 1fr; gap: 2rem; align-items: center; margin: 3rem auto; }
+  @media (min-width: 768px) { .split-section { grid-template-columns: repeat(2, 1fr); gap: 4rem; } }
+  .split-section.reverse .split-section__image { order: -1; }
+  .split-section__text h2 { font-size: 2.5rem; margin-top: 0; margin-bottom: 1.5rem; }
+  .split-section__text p { font-size: 1.1rem; line-height: 1.7; color: var(--theme-text-offset); margin-bottom: 2rem; }
+  .split-section__image img { width: 100%; height: auto; border-radius: 8px; box-shadow: 0 8px 16px rgba(0, 0, 0, 0.4); }
+
+  .button { display: inline-block; background-color: var(--theme-accent); color: white; padding: 12px 24px; text-decoration: none; border-radius: 5px; font-weight: bold; transition: background-color 0.2s ease; }
+  .button:hover { background-color: var(--theme-accent-hover); }
+
+  /* Feynman quote styling */
+  .feynman-quote {
+    margin: 4rem 0;
+    font-style: italic;
+    text-align: center;
+    color: #666;
+    font-size: 1.1rem;
+  }
 </style>

@@ -1,0 +1,103 @@
+---
+import { Container, SEO } from '@components/odyssey-theme';
+import type { Props as SEOProps } from '@components/odyssey-theme/SEO.astro';
+import PageLayout from './Page.astro';
+const { frontmatter } = Astro.props;
+
+const seo: SEOProps = {
+  title: frontmatter.title,
+  description: frontmatter.description,
+  image: frontmatter.featuredImage,
+};
+---
+
+<PageLayout {seo} class="dark">
+  <Container>
+    <article class="post">
+      <header class="post-header">
+        <h1>{frontmatter.title}</h1>
+        <time datetime={frontmatter.publishDate}>
+          {new Date(frontmatter.publishDate).toLocaleDateString('en-US', {
+            year: 'numeric',
+            month: 'long',
+            day: 'numeric',
+          })}
+        </time>
+      </header>
+      <div class="prose">
+        <slot />
+      </div>
+    </article>
+  </Container>
+</PageLayout>
+
+<style>
+  .post {
+    padding-bottom: 3rem;
+  }
+
+  .post-header {
+    text-align: center;
+    margin: 3rem 0;
+  }
+
+  .post-header h1 {
+    font-size: 3.5rem;
+    margin-bottom: 1rem;
+  }
+
+  .post-header time {
+    color: var(--theme-text-offset);
+  }
+
+  .prose {
+    max-width: 800px;
+    margin: auto;
+  }
+
+  .prose :global(h2),
+  .prose :global(h3) {
+    color: var(--theme-accent, #ff6b6b);
+  }
+
+  .prose :global(p),
+  .prose :global(ul),
+  .prose :global(ol) {
+    font-size: 1.1rem;
+    line-height: 1.8;
+  }
+
+  .prose :global(a.button) {
+    display: inline-block;
+    background-color: var(--theme-accent, #ff6b6b);
+    color: white;
+    padding: 12px 24px;
+    text-decoration: none;
+    border-radius: 5px;
+    font-weight: bold;
+    transition: background-color 0.2s ease;
+  }
+
+  .prose :global(a.button:hover) {
+    background-color: var(--theme-accent-hover, #ff4f4f);
+    color: white;
+  }
+
+  /* --- FIX 1: WIDER IMAGE INSIDE POST --- */
+  .prose :global(img) {
+    width: 100%;
+    /* Increased max-width for wider images */
+    max-width: 750px; 
+    height: auto;
+    border-radius: 8px;
+    display: block;
+    margin: 2rem auto; /* centers the image */
+  }
+
+  /* Optional: Keep smaller images on mobile, if desired */
+  @media (max-width: 768px) {
+    .prose :global(img) {
+      max-width: 90%;
+    }
+  }
+</style>

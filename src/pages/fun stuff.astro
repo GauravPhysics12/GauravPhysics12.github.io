@@ -1,0 +1,33 @@
+---
+import { Container } from '@components/odyssey-theme';
+import Layout from '../layouts/Page.astro';
+---
+
+<Layout class="dark">
+  <section class="hero">
+    <Container>
+      <h1>Interesting Tidbits</h1>
+      <p>A collection of cool science facts and concepts.</p>
+    </Container>
+  </section>
+
+  <Container>
+    <section class="content-section">
+      <div class="tidbit">
+        <h3>Neutron Stars are Incredibly Dense</h3>
+        <p>A single sugar-cube-sized amount of neutron star material would have a mass of about 100 million tons, which is about the same as the entire human population. They are the densest objects known to exist, aside from black holes.</p>
+      </div>
+       <div class="tidbit">
+        <h3>The Great Attractor</h3>
+        <p>Our Milky Way galaxy is being pulled towards a mysterious, massive gravitational anomaly called the Great Attractor. It's located about 150-250 million light-years away, but its exact nature is hard to determine because it's obscured by the plane of our own galaxy.</p>
+      </div>
+    </section>
+  </Container>
+</Layout>
+
+<style>
+.hero { text-align: center; padding: 4rem 1rem; background-color: var(--theme-dark-bg, #111); color: var(--theme-light-color, #fff); }
+.content-section { margin: 3rem auto; }
+.tidbit { background-color: #222; border-left: 4px solid var(--theme-accent, #ff6b6b); padding: 1rem 1.5rem; margin-bottom: 1.5rem; border-radius: 0 4px 4px 0; color: var(--theme-light-color, #fff); }
+.tidbit h3 { margin-top: 0; }
+</style>

@@ -1,0 +1,24 @@
+---
+import { getCollection } from 'astro:content';
+import CodePostLayout from '../../layouts/CodePost.astro';
+
+export async function getStaticPaths() {
+	// 1. Changed 'projects' to 'codes'
+	const allPosts = await getCollection('codes');
+	return allPosts.map((post) => {
+		return {
+			params: { slug: post.slug },
+			props: { post },
+		};
+	});
+}
+
+const { post } = Astro.props;
+
+// Render the MDX/MD content
+const { Content } = await post.render();
+---
+
+<CodePostLayout frontmatter={post.data}>
+	<Content />
+</CodePostLayout>

@@ -16,13 +16,11 @@ import { nav } from '../config/nav.js';
 const { seo } = Astro.props as Props;
 ---
 
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/glightbox/dist/css/glightbox.min.css" />
+
 <Layout seo={seo}>
 	<Header rightMenu navData={nav} slot="header">
-		<span slot="logo">
-			<Logo />
-		</span>
-		<Button slot="action-item" href="/theme/get-started">Get Started</Button>
-	</Header>
+		</Header>
 	<div id="page">
 		<slot />
 	</div>
@@ -31,10 +29,25 @@ const { seo } = Astro.props as Props;
 		background="var(--theme-surface-1)"
 		color="var(--theme-on-surface-1)"
 		footerLists={footerLists}
-    footerSocials={footerSocials}
+		footerSocials={footerSocials}
 		copyrightName={settings.name}
-    showPlug={settings.showPlug}
+		showPlug={settings.showPlug}
 	>
-		<Logo slot="logo" />
 	</Footer>
 </Layout>
+
+<script src="https://cdn.jsdelivr.net/npm/glightbox/dist/js/glightbox.min.js"></script>
+
+<style>
+  :global(footer) {
+    padding-top: 2rem;
+    padding-bottom: 2rem;
+  }
+</style>
+
+<style is:global>
+  body {
+    background-color: #000000; /* Sets the background to pure black */
+    color: #eeeeee; /* Sets a default light gray text color for readability */
+  }
+</style>

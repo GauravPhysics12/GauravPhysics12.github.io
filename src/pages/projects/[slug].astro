@@ -1,0 +1,23 @@
+---
+import { getCollection } from 'astro:content';
+import ProjectLayout from '../../layouts/Project.astro';
+
+export async function getStaticPaths() {
+  const allProjects = await getCollection('projects');
+  return allProjects.map((project) => {
+    return {
+      params: { slug: project.slug },
+      props: { project },
+    };
+  });
+}
+
+const { project } = Astro.props;
+
+// 1. Render the MDX/MD content
+const { Content } = await project.render();
+---
+
+<ProjectLayout frontmatter={project.data}>
+  <Content />
+</ProjectLayout>

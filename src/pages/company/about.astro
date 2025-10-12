@@ -1,47 +1,97 @@
 ---
-import { TextSection } from '@components/odyssey-theme';
+import { Container } from '@components/odyssey-theme';
 import Layout from '../../layouts/Page.astro';
-import HeroSection from '../../components/sections/heros/HeroSection.astro';
-
-const seo = {
-	title: 'About | Astro Odyssey Theme',
-	description: 'About Page',
-};
+import profilePic from '../../assets/images/profile.jpg';
 ---
 
-<Layout {seo}>
-	<HeroSection>
-		<div slot="text-container">
-			<h1>About Odyssey</h1>
-			<p>
-				Lorem ipsum dolor sit amet, consectetur adipisicing elit. Amet, nisi
-				recusandae? Quidem dignissimos nobis, dicta unde, aperiam voluptate
-				autem iste reprehenderit, aliquam ducimus illo ea ipsum qui animi sequi.
-				Numquam.
-			</p>
-		</div>
-    <picture slot="image-container">
-      <img
-        src="/assets/images/home/classic-hero.jpg"
-        alt="Astro Odyssee"
-        id="home-hero-image"
-      />
-    </picture>
-	</HeroSection>
-  <TextSection narrow>
-    <p>
-      Lorem ipsum dolor sit amet consectetur, adipisicing elit. Explicabo asperiores alias illo accusamus voluptatem ea cum nemo odit! Consequatur quidem quo iusto quam ea neque nisi dolorum quod, recusandae id!
-      Repudiandae, fugit labore voluptatum beatae modi omnis adipisci corrupti aut aliquid cumque inventore iure possimus doloremque iste incidunt nulla architecto. Nobis iusto sunt voluptatem necessitatibus laborum, earum doloremque fugit rerum!
-    </p>
-    <p>Fugit asperiores harum consectetur sapiente deleniti. Optio enim tenetur impedit reprehenderit labore, illo eius in, consequatur odio dolore iste assumenda explicabo, nisi similique qui obcaecati possimus delectus reiciendis quod modi.</p>
-    
-    <p>
-      Vel tempore rem omnis esse officiis optio, explicabo, quod deleniti adipisci ullam cum necessitatibus eius minus vero saepe ad, dicta rerum praesentium deserunt illo itaque odio corrupti voluptatum quibusdam. Pariatur.
-      Porro neque tempore, illum eligendi deleniti iure dolorem amet magnam at dolores veniam nemo cumque aut alias repellat est dicta sit repellendus facilis officia? Minima dolorum quo ducimus adipisci perferendis.
-    </p>
-    <p>
-      Quis distinctio tempora sequi sit repudiandae cumque nostrum deserunt, voluptatibus rem eum fuga modi beatae cum ullam delectus dicta atque eius nam quos corporis. Animi praesentium quae nobis. Odit, mollitia. Voluptatum, hic explicabo. Ex accusamus ipsa ea dolor commodi quas esse ipsum alias et adipisci error necessitatibus atque facere rerum ratione consequatur aspernatur repudiandae minima consectetur fuga, doloremque dolorum pariatur.
-      Ipsam error eaque velit possimus porro eum quod illo iusto officia magnam magni, beatae nisi voluptate praesentium? Saepe distinctio adipisci quas hic quae facilis? Sequi eum hic aperiam impedit minus?
-    </p>
-  </TextSection>
+<Layout class="dark">
+  <section class="hero">
+    <Container>
+      <h1>About Me</h1>
+      <p>Astrophysics, coding, and a passion for the cosmos.</p>
+    </Container>
+  </section>
+
+  <Container>
+    <section class="about-content">
+      <div class="bio">
+        <h2>Hello! I'm Gaurav Rachh.</h2>
+        <p>
+          I’m in my final year of BS (Research) at IISc, Bangalore, majoring in Physics with a focus on astrophysics and gravitational physics.
+        </p>
+        <p>
+          Outside of research and academics, I enjoy astrophotography, tennis, cooking, music and contemplating deep philosophical questions. I try to stay as grounded as possible while (allegedly) day-dreaming in the crazy world of theoretical physics. 
+        </p>
+        <p>
+          Feel free to explore the tabs to get a glimpse of my research, background, art, and other miscellaneous stuff.
+        </p>
+      </div>
+
+      <div class="details">
+        <img src={profilePic.src} alt="A photo of Gaurav Rachh" class="profile-picture" />
+        <h3>My Research Interests</h3>
+        <ul>
+          <li>Gravitational Waves & Black Hole Perturbation Theory</li>
+          <li>Neutron Star Physics & Cooling Mechanisms</li>
+          <li>Computational Astrophysics & Numerical Relativity</li>
+          <li>Observational Astronomy with Modern Telescopes</li>
+        </ul>
+        <h3>Skills & Expertise</h3>
+        <ul>
+          <li><strong>Programming:</strong> Python (NumPy, SciPy, Matplotlib), Mathematica, C++</li>
+          <li><strong>Tools:</strong> LaTeX, Git & GitHub, Data Analysis & Visualization</li>
+          <li><strong>Languages:</strong> English, Hindi, Gujarati</li>
+        </ul>
+      </div>
+    </section>
+  </Container>
+  <!-- Feynman Quote at the end -->
+  <div class="feynman-quote">
+    "I'm smart enough to know that I'm dumb." – Richard Feynman
+  </div>
 </Layout>
+
+
+
+<style>
+  .blog-posts-list__section {
+    margin: var(--section-margin) auto;
+  }
+
+  .page-hero {
+    text-align: center;
+    padding: 3rem 0;
+  }
+
+  /* Feynman quote styling same as home page */
+.feynman-quote {
+  margin: 4rem 0;
+  font-style: italic;
+  text-align: center;
+  color: var(--theme-text); /* normal text color, not grey */
+  font-size: 1.1rem;
+}
+
+.feynman-quote p:last-child {
+  font-style: normal; /* author not italic */
+  font-weight: 500;
+  margin-top: 1.5rem;
+}
+
+</style>
+</Layout>
+
+<style>
+  .hero { text-align: center; padding: 4rem 1rem; background-color: var(--theme-dark-bg, #111); color: var(--theme-light-color, #fff); }
+  .about-content { margin: 3rem auto; display: grid; grid-template-columns: 1fr; gap: 3rem; }
+  .bio h2 { margin-top: 0; }
+  .bio p { line-height: 1.7; font-size: 1.1rem; color: #ccc; }
+  .details h3 { border-bottom: 2px solid var(--theme-accent, #ff6b6b); padding-bottom: 0.5rem; margin-top: 0; margin-bottom: 1rem; }
+  .details ul { list-style: none; padding: 0; margin: 0 0 2rem 0; }
+  .details ul li { margin-bottom: 0.75rem; font-size: 1.05rem; color: #ccc; }
+  .profile-picture { width: 100%; max-width: 350px; height: auto; aspect-ratio: 1 / 1; object-fit: cover; border-radius: 50%; margin-bottom: 2rem; display: block; margin-left: auto; margin-right: auto; }
+  @media(min-width: 768px) {
+    .about-content { grid-template-columns: 2fr 1fr; }
+    .profile-picture { margin-left: 0; margin-right: 0; }
+  }
+</style>

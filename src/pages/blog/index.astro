@@ -1,56 +1,77 @@
 ---
 import { parse, isBefore } from 'date-fns';
-import {
-	Container,
-	TextCardSection,
-	BlogPostsList,
-} from '@components/odyssey-theme';
+import { Container, BlogPostsList } from '@components/odyssey-theme';
 import Layout from '../../layouts/Page.astro';
-import NewsletterForm from '../../components/forms/NewsletterForm.astro';
 
 const posts = await Astro.glob('./posts/*.mdx').then(posts =>
-	posts
-		.map(({ frontmatter, url }) => ({
-			title: frontmatter.title,
-			description: frontmatter.description,
-			authors: frontmatter.authors,
-			publishDate: parse(frontmatter.publishDate, 'MMMM d, yyyy', new Date()),
-			featuredImage: frontmatter.featuredImage,
-			excerpt: frontmatter.excerpt,
-			href: url,
-		}))
-		.sort((a, b) => {
-			if (isBefore(a.publishDate, b.publishDate)) return 1;
-			if (isBefore(b.publishDate, a.publishDate)) return -1;
-			return 0;
-		})
+  posts
+    .map(({ frontmatter, url }) => ({
+      title: frontmatter.title,
+      description: frontmatter.description,
+      authors: frontmatter.authors,
+      publishDate: parse(frontmatter.publishDate, 'MMM d, yyyy', new Date()),
+      featuredImage: frontmatter.featuredImage,
+      excerpt: frontmatter.excerpt,
+      href: url,
+    }))
+    .sort((a, b) => {
+      if (isBefore(a.publishDate, b.publishDate)) return 1;
+      if (isBefore(b.publishDate, a.publishDate)) return -1;
+      return 0;
+    })
 );
 
 const seo = {
-	title: 'Blog | Astro Odyssey Theme',
-	description: 'Astro Odyssey Theme Blog Page',
+  title: 'Blog',
+  description: 'My blog about physics, astrophotography, and interesting science.',
 };
 ---
 
 <Layout {seo}>
-	<Container>
-		<TextCardSection>
-			<h1>Odyssey Blog</h1>
-			<p>
-				View our blog to stay up to date on the latest news about our business.
-				Want to be the first to hear about a new blog post? Join our newsletter!
-			</p>
-			<NewsletterForm />
-		</TextCardSection>
-		<section class="blog-posts-list__section">
-			<h2>Recent Posts</h2>
-			<BlogPostsList posts={posts} />
-		</section>
-	</Container>
+  <Container>
+    <div class="page-hero">
+      <h1>My Blog</h1>
+      <p>A collection of posts about my research, astrophotography, and interesting science.</p>
+    </div>
+
+    <section class="blog-posts-list__section">
+      <h2>Recent Posts</h2>
+      <BlogPostsList posts={posts} />
+    </section>
+  </Container>
+
+ <!-- Feynman Quote at the end -->
+  <div class="feynman-quote">
+    "Nobody ever figures out what life is all about, and it doesn't matter. Explore the world. Nearly everything is really interesting if you go into it deeply enough." – Richard Feynman
+  </div>
 </Layout>
 
+
+
 <style>
-	.blog-posts-list__section {
-		margin: var(--section-margin) auto;
-	}
+  .blog-posts-list__section {
+    margin: var(--section-margin) auto;
+  }
+
+  .page-hero {
+    text-align: center;
+    padding: 3rem 0;
+  }
+
+  /* Feynman quote styling same as home page */
+.feynman-quote {
+  margin: 4rem 0;
+  font-style: italic;
+  text-align: center;
+  color: var(--theme-text); /* normal text color, not grey */
+  font-size: 1.1rem;
+}
+
+.feynman-quote p:last-child {
+  font-style: normal; /* author not italic */
+  font-weight: 500;
+  margin-top: 1.5rem;
+}
+
 </style>
+

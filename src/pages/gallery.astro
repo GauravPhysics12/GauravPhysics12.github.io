@@ -1,0 +1,122 @@
+---
+import { Container } from '@components/odyssey-theme';
+import Layout from '../layouts/Page.astro';
+import FeynmanQuote from '../components/FeynmanQuote.astro';
+
+// Import all your images
+import fullMoon from '../assets/images/gallery/Full_moon.jpg';
+import janComet from '../assets/images/gallery/Jan_2023_comet.jpg';
+import jupiter from '../assets/images/gallery/Jupiter.png';
+import lunarEclipse from '../assets/images/gallery/Lunar Eclipse.png';
+import milkyWay from '../assets/images/gallery/MW_with_hill.jpeg';
+import openDarkSky from '../assets/images/gallery/Open_dark_sky_phone_astrophotography.jpg';
+import orionNebula from '../assets/images/gallery/Orion Nebula (Nearly-Final).jpg';
+import partialSolar from '../assets/images/gallery/Partial_solar_eclipse.jpg';
+import perseusCluster from '../assets/images/gallery/Perseus Double Cluster.jpg';
+import pleiades from '../assets/images/gallery/Pleiades.jpeg';
+import saturn from '../assets/images/gallery/Saturn.jpg';
+import sunspots from '../assets/images/gallery/Sunspots.jpg';
+import totalLunar from '../assets/images/gallery/Total_lunar_eclipse_25.png';
+import firstMoon from '../assets/images/gallery/my_first_astrophotograph_half_moon.JPG';
+import telescopeSetup from '../assets/images/gallery/my_telescope_setup_celestron_130EQ.JPG';
+---
+
+<Layout class="dark">
+	<section class="hero">
+		<Container>
+			<h1>Astrophotography Gallery</h1>
+			<p>A collection of my favorite shots of the night sky. Click on any image to view details.</p>
+		</Container>
+	</section>
+
+	<Container>
+		<section class="content-section">
+			<div class="gallery-grid">
+
+				<a href={saturn.src} class="glightbox gallery-item" data-description="A stunning view of **Saturn**, highlighting the intricate rings in sharp detail. Captured under clear skies to maximize clarity and contrast."><img src={saturn.src} alt="The Ringed Planet Saturn" /><p>Saturn</p></a>
+				<a href={telescopeSetup.src} class="glightbox gallery-item" data-description="My deep-sky imaging rig: a **Celestron 130EQ telescope** with a sturdy mount, essential for long exposures and capturing faint celestial objects."><img src={telescopeSetup.src} alt="Telescope Setup" /><p>Telescope Setup</p></a>
+				<a href={firstMoon.src} class="glightbox gallery-item" data-description="My first astrophotograph: the **waxing crescent Moon**. This image holds sentimental value and highlights the terminator line in sharp detail."><img src={firstMoon.src} alt="First Astrophotograph Moon" /><p>First Moon Capture</p></a>
+				<a href={janComet.src} class="glightbox gallery-item" data-description="A rare sighting of **Comet ZTF (C/2022 E3)** in January 2023. The faint greenish coma and subtle tail are visible against the dark night sky."><img src={janComet.src} alt="Comet ZTF January 2023" /><p>Comet ZTF</p></a>
+				<a href={fullMoon.src} class="glightbox gallery-item" data-description="A detailed, high-contrast image of the **Full Moon**, showing its bright surface, craters, and lunar mares in vivid clarity."><img src={fullMoon.src} alt="Full Moon" /><p>Full Moon</p></a>
+				<a href={orionNebula.src} class="glightbox gallery-item" data-description="The **Orion Nebula (M42)**, a stellar nursery. This deep-sky exposure captures the vibrant gases and the bright **Trapezium Cluster** at its heart."><img src={orionNebula.src} alt="Orion Nebula" /><p>Orion Nebula</p></a>
+				<a href={sunspots.src} class="glightbox gallery-item" data-description="Detailed view of the Sun’s surface with prominent **sunspots**, areas of intense magnetic activity appearing darker due to lower temperature."><img src={sunspots.src} alt="Sunspots" /><p>Sunspots</p></a>
+				<a href={partialSolar.src} class="glightbox gallery-item" data-description="The Moon partially blocking the Sun during a **partial solar eclipse**, captured safely with proper solar filters."><img src={partialSolar.src} alt="Partial Solar Eclipse" /><p>Partial Solar Eclipse</p></a>
+				<a href={openDarkSky.src} class="glightbox gallery-item" data-description="A wide-angle capture of a remote landscape under a clear night sky, emphasizing the stars and the sense of isolation in nature."><img src={openDarkSky.src} alt="Open Dark Sky" /><p>Open Dark Sky</p></a>
+				<a href={milkyWay.src} class="glightbox gallery-item" data-description="A wide-field view of the **Milky Way's galactic core** arching over a silhouetted hill, highlighting the grandeur of our galaxy."><img src={milkyWay.src} alt="Milky Way with Hill" /><p>Milky Way Over Hills</p></a>
+				<a href={perseusCluster.src} class="glightbox gallery-item" data-description="The **Perseus Double Cluster (NGC 869 & NGC 884)**, a pair of young star clusters with bright blue stars, visible even with the naked eye in dark skies."><img src={perseusCluster.src} alt="Perseus Double Cluster" /><p>Perseus Double Cluster</p></a>
+				<a href={pleiades.src} class="glightbox gallery-item" data-description="The famous **Pleiades (M45) cluster**, surrounded by a striking blue reflection nebula caused by interstellar dust scattering light from hot, young stars."><img src={pleiades.src} alt="Pleiades Cluster" /><p>Pleiades (M45)</p></a>
+				<a href={jupiter.src} class="glightbox gallery-item" data-description="A high-magnification view of **Jupiter**, showing cloud bands, minor storms, and the iconic **Great Red Spot**."><img src={jupiter.src} alt="Jupiter" /><p>Jupiter</p></a>
+				<a href={lunarEclipse.src} class="glightbox gallery-item" data-description="A mesmerizing **Total Lunar Eclipse**, with the Moon bathed in a deep red hue caused by sunlight filtered through Earth’s atmosphere."><img src={lunarEclipse.src} alt="Total Lunar Eclipse" /><p>Total Lunar Eclipse</p></a>
+
+			</div>
+		</section>
+	</Container>
+
+ <!-- Feynman Quote at the end -->
+  <div class="feynman-quote">
+    "There are 10^11 stars in the galaxy. That used to be a huge number. But it's only a hundred billion. It's less than the national deficit! We used to call them astronomical numbers. Now we should call them economical numbers." – Richard Feynman
+  </div>
+</Layout>
+
+
+<style>
+  .blog-posts-list__section {
+    margin: var(--section-margin) auto;
+  }
+
+  .page-hero {
+    text-align: center;
+    padding: 3rem 0;
+  }
+
+  /* Feynman quote styling same as home page */
+.feynman-quote {
+  margin: 4rem 0;
+  font-style: italic;
+  text-align: center;
+  color: var(--theme-text); /* normal text color, not grey */
+  font-size: 1.1rem;
+}
+
+.feynman-quote p:last-child {
+  font-style: normal; /* author not italic */
+  font-weight: 500;
+  margin-top: 1.5rem;
+}
+
+</style>
+
+
+
+</Layout>
+
+<script is:inline>
+	document.addEventListener('DOMContentLoaded', function() {
+		const lightbox = GLightbox({
+			selector: '.glightbox',
+			descriptionPosition: 'bottom',
+			touchNavigation: true,
+			loop: true,
+		});
+	});
+</script>
+
+<style>
+	.hero { text-align: center; padding: 4rem 1rem; background-color: var(--theme-dark-bg, #111); color: var(--theme-light-color, #fff); }
+	.content-section { margin: 3rem auto; }
+	.gallery-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1.5rem; }
+	.gallery-item { text-align: center; background-color: #222; border-radius: 8px; overflow: hidden; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3); display: flex; flex-direction: column; text-decoration: none; transition: transform 0.2s ease-in-out; }
+	.gallery-item:hover { transform: scale(1.03); }
+	.gallery-item img { width: 100%; height: 200px; object-fit: cover; border-bottom: 1px solid #333; }
+	.gallery-item p { padding: 1rem 0.5rem; margin: 0; color: #eee; font-size: 0.9rem; flex-grow: 1; display: flex; align-items: center; justify-content: center; }
+</style>
+
+<style is:global>
+	.gslide-description {
+		background: rgba(255, 255, 255, 0.25) !important;
+	}
+	/* This rule is more specific and will force all text inside the description to be black */
+	.gslide-description .gslide-desc-inner, .gslide-description .gslide-desc-inner * {
+		color: #111 !important;
+	}
+</style>

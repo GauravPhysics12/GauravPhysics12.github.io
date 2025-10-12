@@ -1,0 +1,101 @@
+---
+import { Container } from '@components/odyssey-theme';
+import Layout from '../../layouts/Page.astro';
+import { getCollection } from 'astro:content';
+
+const ProjectPosts = await getCollection('projects');
+
+const sortedPosts = ProjectPosts.sort(
+  (a, b) => new Date(b.data.publishDate).valueOf() - new Date(a.data.publishDate).valueOf()
+);
+---
+
+<Layout>
+  <Container>
+    <div class="page-hero">
+      <h1>Research Projects</h1>
+      <p>These are some of the projects that I have worked on during my studies at IISc. I have discussed the work I did and also some backstory behind them! Click on each tab to view..</p>
+    </div>
+
+    <section class="posts-list-section">
+      <div class="posts-grid">
+        {sortedPosts.map(post => (
+          <a href={`/projects/${post.slug}`} class="post-card">
+            {post.data.featuredImage && (
+              <img
+                src={post.data.featuredImage}
+                alt={post.data.title}
+                class="post-card__image"
+              />
+            )}
+            <div class="post-card__content">
+              <h3>{post.data.title}</h3>
+              <p>{post.data.excerpt}</p>
+            </div>
+          </a>
+        ))}
+      </div>
+    </section>
+  </Container>
+   <!-- Feynman Quote at the end -->
+  <div class="feynman-quote">
+    "Religion is a culture of faith; science is a culture of doubt." – Richard Feynman
+  </div>
+</Layout>
+
+
+
+<style>
+  .blog-posts-list__section {
+    margin: var(--section-margin) auto;
+  }
+
+  .page-hero {
+    text-align: center;
+    padding: 3rem 0;
+  }
+
+  /* Feynman quote styling same as home page */
+.feynman-quote {
+  margin: 4rem 0;
+  font-style: italic;
+  text-align: center;
+  color: var(--theme-text); /* normal text color, not grey */
+  font-size: 1.1rem;
+}
+
+.feynman-quote p:last-child {
+  font-style: normal; /* author not italic */
+  font-weight: 500;
+  margin-top: 1.5rem;
+}
+
+</style>
+</Layout>
+
+<style>
+  .page-hero { padding: 3rem 0; text-align: center; }
+  .page-hero h1 { font-size: 3.5rem; margin-bottom: 1rem; }
+  .posts-list-section { margin: var(--section-margin) auto; }
+  .posts-grid { display: grid; grid-template-columns: 1fr; gap: 2.5rem; }
+  @media (min-width: 768px) { .posts-grid { grid-template-columns: repeat(2, 1fr); } }
+  .post-card { display: block; background-color: var(--theme-bg-offset); border-radius: 8px; overflow: hidden; text-decoration: none; color: var(--theme-text); transition: transform 0.2s ease; }
+  .post-card:hover { transform: translateY(-5px); }
+  
+  /* --- FIX 2: FEATURED IMAGE ON INDEX PAGE --- */
+  .post-card__image { 
+    width: 100%; 
+    /* Use min-height to reserve space, but let auto height take over */
+    min-height: 220px; 
+    height: auto; 
+    /* Change from 'cover' to 'contain' to ensure the entire image is visible */
+    object-fit: contain; 
+    /* Set a background to fill the empty space left by 'contain' */
+    background-color: var(--theme-bg-offset);
+    padding: 1rem; /* Optional: Add some padding for better spacing */
+  }
+
+  .post-card__content { padding: 1.5rem; }
+  .post-card__content h3 { margin: 0 0 0.75rem 0; font-size: 1.6rem; }
+  .post-card__content p { margin: 0; color: var(--theme-text-offset); }
+</style>
