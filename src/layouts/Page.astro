@@ -1,26 +1,21 @@
 ---
-import { Header, Button, Footer } from '@components/odyssey-theme';
+import { Header, Footer } from '@components/odyssey-theme';
 import Layout from './Base.astro';
 import type { Props as BaseHeadProps } from '../components/head/BaseHead.astro';
-import Logo from '../components/Logo.astro';
 import settings from '../config/settings';
 import { footerLists, footerSocials } from '../config/footer';
-
+import { nav } from '../config/nav.js';
 
 export interface Props {
 	seo?: BaseHeadProps;
 }
-
-import { nav } from '../config/nav.js';
-
 const { seo } = Astro.props as Props;
 ---
 
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/glightbox/dist/css/glightbox.min.css" />
 
 <Layout seo={seo}>
-	<Header rightMenu navData={nav} slot="header">
-		</Header>
+	<Header rightMenu navData={nav} slot="header"></Header>
 	<div id="page">
 		<slot />
 	</div>
@@ -32,8 +27,7 @@ const { seo } = Astro.props as Props;
 		footerSocials={footerSocials}
 		copyrightName={settings.name}
 		showPlug={settings.showPlug}
-	>
-	</Footer>
+	></Footer>
 </Layout>
 
 <script src="https://cdn.jsdelivr.net/npm/glightbox/dist/js/glightbox.min.js"></script>
@@ -42,12 +36,5 @@ const { seo } = Astro.props as Props;
   :global(footer) {
     padding-top: 2rem;
     padding-bottom: 2rem;
-  }
-</style>
-
-<style is:global>
-  body {
-    background-color: #000000; /* Sets the background to pure black */
-    color: #eeeeee; /* Sets a default light gray text color for readability */
   }
 </style>
