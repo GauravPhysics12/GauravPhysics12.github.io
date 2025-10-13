@@ -8,7 +8,7 @@ import profilePic from '../../assets/images/profile.jpg';
   <section class="hero">
     <Container>
       <h1>About Me</h1>
-      <p>Physics, coding, and a passion for the cosmos.</p>
+      <p>Astrophysics, coding, and a passion for the cosmos.</p>
     </Container>
   </section>
 
@@ -20,11 +20,16 @@ import profilePic from '../../assets/images/profile.jpg';
           I’m in my final year of BS (Research) at IISc, Bangalore, majoring in Physics with a focus on astrophysics and gravitational physics.
         </p>
         <p>
-          Outside of research and academics, I enjoy astrophotography, tennis, cooking, music, and contemplating deep philosophical questions. 
+          Outside of research and academics, I enjoy astrophotography, tennis, cooking, music, and contemplating deep philosophical questions. I try to stay as grounded as possible while (allegedly) day-dreaming in the crazy world of theoretical physics. 
         </p>
         <p>
           Feel free to explore the tabs to get a glimpse of my research, background, art, and other miscellaneous stuff.
         </p>
+        
+        <p class="contact-info">
+          Contact: <a href="mailto:gauravrphysics1212@gmail.com">gauravrphysics1212@gmail.com</a>
+        </p>
+
       </div>
 
       <div class="details">
@@ -32,52 +37,19 @@ import profilePic from '../../assets/images/profile.jpg';
         <h3>My Research Interests</h3>
         <ul>
           <li>Gravitational Waves & Black Hole Perturbation Theory</li>
-          <li>Neutron Star Physics</li>
+          <li>Neutron Star Physics & Cooling Mechanisms</li>
           <li>Computational Astrophysics & Numerical Relativity</li>
+          <li>Observational Astronomy with Modern Telescopes</li>
         </ul>
         <h3>Skills & Expertise</h3>
         <ul>
           <li><strong>Programming:</strong> Python (NumPy, SciPy, Matplotlib), Mathematica, C++</li>
           <li><strong>Tools:</strong> LaTeX, Git & GitHub, Data Analysis & Visualization</li>
+          <li><strong>Languages:</strong> English, Hindi, Gujarati</li>
         </ul>
       </div>
     </section>
   </Container>
-   <!-- Feynman Quote at the end -->
-  <div class="feynman-quote">
-    "I'm smart enough to know that I'm dumb." – Richard Feynman
-  </div>
-</Layout>
-
-
-
-<style>
-  .blog-posts-list__section {
-    margin: var(--section-margin) auto;
-  }
-
-  .page-hero {
-    text-align: center;
-    padding: 3rem 0;
-  }
-
-  /* Feynman quote styling same as home page */
-.feynman-quote {
-  margin: 4rem 0;
-  font-style: italic;
-  text-align: center;
-  color: var(--theme-text); /* normal text color, not grey */
-  font-size: 1.1rem;
-}
-
-.feynman-quote p:last-child {
-  font-style: normal; /* author not italic */
-  font-weight: 500;
-  margin-top: 1.5rem;
-}
-
-</style>
-
 </Layout>
 
 <style>
@@ -87,16 +59,23 @@ import profilePic from '../../assets/images/profile.jpg';
   .bio p {
     line-height: 1.7;
     font-size: 1.1rem;
-    color: var(--theme-on-bg); /* ✅ Changed from light grey to the main text color */
+    color: var(--theme-on-bg);
   }
   .details h3 { border-bottom: 2px solid var(--theme-accent); padding-bottom: 0.5rem; margin-top: 0; margin-bottom: 1rem; }
   .details ul { list-style: none; padding: 0; margin: 0 0 2rem 0; }
   .details ul li {
     margin-bottom: 0.75rem;
     font-size: 1.05rem;
-    color: var(--theme-on-bg); /* ✅ Changed from light grey to the main text color */
+    color: var(--theme-on-bg);
   }
   .profile-picture { width: 100%; max-width: 350px; height: auto; aspect-ratio: 1 / 1; object-fit: cover; border-radius: 50%; margin-bottom: 2rem; display: block; margin-left: auto; margin-right: auto; }
+  
+  /* Style for the new contact info */
+  .contact-info {
+    margin-top: 2rem;
+    font-weight: 500;
+  }
+
   @media(min-width: 768px) {
     .about-content { grid-template-columns: 2fr 1fr; }
     .profile-picture { margin-left: 0; margin-right: 0; }
