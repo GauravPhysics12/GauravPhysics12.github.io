@@ -8,7 +8,7 @@ import profilePic from '../../assets/images/profile.jpg';
   <section class="hero">
     <Container>
       <h1>About Me</h1>
-      <p>Astrophysics, coding, and a passion for the cosmos.</p>
+      <p>Physics, coding, and a passion for the cosmos.</p>
     </Container>
   </section>
 
@@ -32,9 +32,8 @@ import profilePic from '../../assets/images/profile.jpg';
         <h3>My Research Interests</h3>
         <ul>
           <li>Gravitational Waves & Black Hole Perturbation Theory</li>
-          <li>Neutron Star Physics & Cooling Mechanisms</li>
+          <li>Neutron Star Physics</li>
           <li>Computational Astrophysics & Numerical Relativity</li>
-          <li>Observational Astronomy with Modern Telescopes</li>
         </ul>
         <h3>Skills & Expertise</h3>
         <ul>
@@ -44,6 +43,41 @@ import profilePic from '../../assets/images/profile.jpg';
       </div>
     </section>
   </Container>
+   <!-- Feynman Quote at the end -->
+  <div class="feynman-quote">
+    "I'm smart enough to know that I'm dumb." – Richard Feynman
+  </div>
+</Layout>
+
+
+
+<style>
+  .blog-posts-list__section {
+    margin: var(--section-margin) auto;
+  }
+
+  .page-hero {
+    text-align: center;
+    padding: 3rem 0;
+  }
+
+  /* Feynman quote styling same as home page */
+.feynman-quote {
+  margin: 4rem 0;
+  font-style: italic;
+  text-align: center;
+  color: var(--theme-text); /* normal text color, not grey */
+  font-size: 1.1rem;
+}
+
+.feynman-quote p:last-child {
+  font-style: normal; /* author not italic */
+  font-weight: 500;
+  margin-top: 1.5rem;
+}
+
+</style>
+
 </Layout>
 
 <style>
