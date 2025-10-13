@@ -30,6 +30,18 @@ export const categories = [
 			
 		],
 	},
+	// This is your new category
+	{
+		name: 'Astrophysics',
+		slug: 'astrophysics',
+		description: 'Notes on various topics in astrophysics, from stellar interiors to radiative processes.',
+		notes: [
+			{
+				title: 'Notes on Radiative Transfer',
+				pdfUrl: '/notes/Radiative.pdf',
+			},
+		],
+	},
 	// Add your next category here
 	// {
 	//   name: 'Quantum Mechanics',

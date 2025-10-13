@@ -174,6 +174,13 @@ declare module 'astro:content' {
 } & { render(): Render[".mdx"] };
 };
 "projects": {
+"NS.mdx": {
+	id: "NS.mdx";
+  slug: "ns";
+  body: string;
+  collection: "projects";
+  data: any
+} & { render(): Render[".mdx"] };
 "QNM-project.mdx": {
 	id: "QNM-project.mdx";
   slug: "qnm-project";
@@ -188,9 +195,9 @@ declare module 'astro:content' {
   collection: "projects";
   data: any
 } & { render(): Render[".mdx"] };
-"telescope.mdx": {
-	id: "telescope.mdx";
-  slug: "telescope";
+"telescope_grinding.mdx": {
+	id: "telescope_grinding.mdx";
+  slug: "telescope_grinding";
   body: string;
   collection: "projects";
   data: any
