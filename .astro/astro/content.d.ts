@@ -188,6 +188,13 @@ declare module 'astro:content' {
   collection: "projects";
   data: any
 } & { render(): Render[".mdx"] };
+"telescope.mdx": {
+	id: "telescope.mdx";
+  slug: "telescope";
+  body: string;
+  collection: "projects";
+  data: any
+} & { render(): Render[".mdx"] };
 };
 
 	};
