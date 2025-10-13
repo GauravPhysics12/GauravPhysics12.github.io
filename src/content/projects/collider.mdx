@@ -7,70 +7,33 @@ featuredImage: '/images/project/pheno.png'
 excerpt: 'This project explores the intersection of collider physics and machine learning — simulating proton–proton collisions, constructing jet images, and applying unsupervised autoencoders to detect rare events like top jets.'
 ---
 
-**Particle colliders are the most powerful microscopes ever built, allowing us to probe the smallest scales of nature. But buried in the vast amount of data they produce lie rare and potentially groundbreaking events. This project explores how unsupervised learning can help uncover such anomalies using jet image analysis.**
-
----
+Particle colliders are the most powerful microscopes ever built, allowing us to probe the smallest scales of nature. But buried in the vast amount of data they produce lie rare and potentially groundbreaking events. This project explores how unsupervised learning can help uncover such anomalies using jet image analysis.
 
 ### Overview
 
-This work focuses on developing a **machine learning–based anomaly detection framework** for collider data, where the goal is to identify **rare or unexpected events** without explicit labeling.
+This work focuses on developing a **machine learning–based anomaly detection framework** for collider data, where the goal is to identify **rare or unexpected events** without explicit labeling. The analysis pipeline consisted of:
 
-The analysis pipeline consisted of the following stages:
-
-- **Collider Event Simulation:**  
-  Proton–proton collisions were generated using **MadGraph**, followed by parton showering and hadronization with **Pythia**.  
-  The detector effects were modeled using **Delphes**, producing realistic event outputs.
-
-- **Jet Image Construction:**  
-  Using **ROOT**, the reconstructed jets were converted into 2D images representing energy deposits in the detector’s η–φ plane.  
-  These jet images form the visual representation of particle showers resulting from different processes.
-
-- **Autoencoder-based Anomaly Detection:**  
-  A **Convolutional Autoencoder (CAE)** was trained exclusively on background (QCD) jets.  
-  During testing, **Top jets**, being rare and morphologically distinct, were effectively flagged as anomalies based on their **reconstruction error** (Mean Squared Error).
-
----
-
-### Physics Context
-
-Top jets are composite structures arising from boosted top quarks that decay hadronically, producing substructure patterns different from standard QCD jets.  
-Detecting such rare events helps in:
-
-- Testing **Standard Model predictions** at high energies.  
-- Searching for **Beyond Standard Model (BSM)** phenomena.  
-- Developing **robust anomaly detection frameworks** for next-generation collider experiments.
-
----
-
-### Results and Insights
-
-- The trained autoencoder successfully distinguished top jets from QCD background using the reconstruction loss as an anomaly score.  
-- Visual inspection of jet images revealed distinct topological features between classes.  
-- Quantitatively, the method demonstrated strong separation performance (e.g., AUC improvement over random baseline), showcasing the potential of unsupervised ML in collider analyses.
-
----
+-   **Collider Event Simulation:** Proton–proton collisions were generated using **MadGraph**, followed by parton showering with **Pythia**. Detector effects were modeled using **Delphhes**.
+-   **Jet Image Construction:** Using **ROOT**, the reconstructed jets were converted into 2D images representing energy deposits in the detector’s η–φ plane.
+-   **Autoencoder-based Anomaly Detection:** A **Convolutional Autoencoder (CAE)** was trained exclusively on background (QCD) jets. During testing, **Top jets** were effectively flagged as anomalies based on their high **reconstruction error**.
 
 ### Thesis and Resources
 
-You can find the detailed methodology, dataset preparation steps, and full analysis in my **Bachelor’s thesis**:
+You can find the detailed methodology and full analysis in my Bachelor’s thesis:
 
-📄 **[Download Thesis (PDF)](/images/project/BS.pdf)**
+<a href="/images/project/BS.pdf" class="button" target="_blank" rel="noopener noreferrer">
+  Download Thesis (PDF)
+</a>
 
-*Additional materials, such as simulation scripts and analysis notebooks, will be added soon.*
-
----
+*Additional materials will be added soon.*
 
 ### Acknowledgments
 
-This project was conducted as part of my **Bachelor’s thesis at IISc Bengaluru**,  
-where I explored the interface between **collider phenomenology** and **data-driven physics**.  
-It was supervised and inspired by ongoing research in anomaly detection for next-generation collider experiments.
+This project was conducted as part of my **Bachelor’s thesis at IISc Bengaluru**. Key tools used: **MadGraph**, **Pythia**, **Delphes**, **ROOT**, **Python (TensorFlow/Keras)**.
 
-Key tools used: **MadGraph**, **Pythia**, **Delphes**, **ROOT**, **Python (TensorFlow/Keras)**.
+<br />
 
----
-
-**This project sparked my ongoing interest in using data science techniques to address fundamental questions in particle physics — blending simulation, computation, and theory.**
-
-
-> "Yes, there is happiness to be found in the mere contemplation of the deepest mysteries." – John Archibald Wheeler
+<blockquote class="clean-quote">
+  "Yes, there is happiness to be found in the mere contemplation of the deepest mysteries."
+  <p style="text-align: right; font-style: normal; margin-top: 1rem;">– John Archibald Wheeler</p>
+</blockquote>
