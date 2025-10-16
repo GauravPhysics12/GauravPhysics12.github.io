@@ -15,7 +15,7 @@ export async function getStaticPaths() {
 const { category } = Astro.props;
 ---
 
-<Layout class="dark">
+<Layout>
   <section class="hero">
     <Container>
       <h1>{category.name}</h1>
@@ -28,7 +28,10 @@ const { category } = Astro.props;
     <section class="notes-list">
       {category.notes.map(note => (
         <div class="note-card">
-          <h2>{note.title}</h2>
+          <div class="note-info">
+            <h2>{note.title}</h2>
+            {note.comment && <p class="note-comment">{note.comment}</p>}
+          </div>
           <a href={note.pdfUrl} class="button" target="_blank" rel="noopener noreferrer">
             View PDF
           </a>
@@ -39,37 +42,46 @@ const { category } = Astro.props;
 </Layout>
 
 <style>
-  .hero { text-align: center; padding: 4rem 1rem; background-color: var(--theme-dark-bg, #111); color: var(--theme-light-color, #fff); }
+  .hero { text-align: center; padding: 4rem 1rem; background-color: var(--theme-bg-offset); }
   .back-link {
     display: inline-block;
     margin-top: 2rem;
-    color: #ccc;
+    color: var(--theme-text-offset);
     text-decoration: none;
-    border: 1px solid #555;
+    border: 1px solid var(--theme-border);
     padding: 0.5rem 1rem;
     border-radius: 5px;
     transition: background-color 0.2s ease, border-color 0.2s ease;
   }
   .back-link:hover {
-    background-color: #333;
-    border-color: #777;
+    background-color: var(--theme-surface-1);
+    border-color: var(--theme-accent);
   }
   .notes-list { margin: 3rem auto; max-width: 800px; }
   .note-card {
-    background-color: #222;
-    border-left: 4px solid var(--theme-accent, #ff6b6b);
+    background-color: var(--theme-surface-1);
     padding: 1.5rem 2rem;
     margin-bottom: 2rem;
-    border-radius: 0 8px 8px 0;
+    border-radius: 8px;
     display: flex;
     justify-content: space-between;
     align-items: center;
+    gap: 1.5rem;
   }
-  .note-card h2 { margin: 0; font-size: 1.5rem; color: #eee; }
+  .note-info h2 { margin: 0; font-size: 1.5rem; color: var(--theme-on-surface-1); }
+  
+  /* Style for your new comment text */
+  .note-comment {
+    font-size: 0.9rem;
+    font-style: italic;
+    color: var(--theme-text-offset);
+    margin: 0.5rem 0 0 0;
+  }
+
   .button {
     display: inline-block;
-    background-color: var(--theme-accent, #ff6b6b);
-    color: white;
+    background-color: var(--theme-accent);
+    color: var(--theme-on-primary);
     padding: 10px 20px;
     text-decoration: none;
     border-radius: 5px;
@@ -77,5 +89,5 @@ const { category } = Astro.props;
     transition: background-color 0.2s ease;
     white-space: nowrap;
   }
-  .button:hover { background-color: var(--theme-accent-hover, #ff4f4f); color: white; }
+  .button:hover { background-color: var(--theme-accent-hover); }
 </style>

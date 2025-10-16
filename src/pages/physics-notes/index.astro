@@ -4,13 +4,21 @@ import Layout from '../../layouts/Page.astro';
 import { categories } from '../../config/notes.js';
 ---
 
-<Layout class="dark">
+<Layout>
   <section class="hero">
     <Container>
       <h1>Physics Notes</h1>
       <p>A collection of my study and research notes, organized by topic.</p>
     </Container>
   </section>
+
+  <Container>
+    <section class="notes-intro">
+      <p>
+        The notes in this collection represent my personal journey through modern theoretical physics. They are a synthesis of insights drawn from cornerstone textbooks like Schutz's <em>A First Course in General Relativity</em> and Carroll's <em>Spacetime and Geometry</em>, combined with the rigorous mathematical framework from Prof. Friedrich Schuller's lecture series. These are living documents, blended with my own interpretations and derivations, and are continuously being updated.
+      </p>
+    </section>
+  </Container>
 
   <Container>
     <section class="notes-list">
@@ -22,66 +30,65 @@ import { categories } from '../../config/notes.js';
       ))}
     </section>
   </Container>
-   <!-- Feynman Quote at the end -->
-  <div class="feynman-quote">
-    "Study hard what interests you the most in the most undisciplined, irreverent and original manner possible." – Richard Feynman
-  </div>
+  
+  <Container>
+    <div class="feynman-quote">
+      <p>"Study hard what interests you the most in the most undisciplined, irreverent and original manner possible."</p>
+      <p class="author">– Richard Feynman</p>
+    </div>
+  </Container>
 </Layout>
 
-
-
 <style>
-  .blog-posts-list__section {
-    margin: var(--section-margin) auto;
-  }
-
-  .page-hero {
+  .hero { text-align: center; padding: 4rem 1rem; background-color: var(--theme-bg-offset); }
+  .notes-intro {
     text-align: center;
-    padding: 3rem 0;
+    max-width: 800px;
+    margin: 0 auto -1rem auto;
+    font-style: italic;
+    color: var(--theme-text-offset);
+    line-height: 1.7;
   }
-
-  /* Feynman quote styling same as home page */
-.feynman-quote {
-  margin: 4rem 0;
-  font-style: italic;
-  text-align: center;
-  color: var(--theme-text); /* normal text color, not grey */
-  font-size: 1.1rem;
-}
-
-.feynman-quote p:last-child {
-  font-style: normal; /* author not italic */
-  font-weight: 500;
-  margin-top: 1.5rem;
-}
-
-</style>
-</Layout>
-
-<style>
-  .hero { text-align: center; padding: 4rem 1rem; background-color: var(--theme-dark-bg, #111); color: var(--theme-light-color, #fff); }
   .notes-list { margin: 3rem auto; max-width: 800px; }
   .category-card {
     display: block;
-    background-color: #222;
-    border-left: 4px solid var(--theme-accent, #ff6b6b);
+    background-color: var(--theme-surface-1);
+    border-left: 4px solid var(--theme-accent);
     padding: 1.5rem 2rem;
     margin-bottom: 2rem;
     border-radius: 0 8px 8px 0;
     text-decoration: none;
     transition: transform 0.2s ease, box-shadow 0.2s ease;
+    color: var(--theme-on-surface-1);
   }
   .category-card:hover {
     transform: scale(1.02);
-    box-shadow: 0 8px 16px rgba(0,0,0,0.4);
+    box-shadow: 0 8px 16px rgba(0,0,0,0.1);
   }
   .category-card h2 {
     margin-top: 0;
     font-size: 1.75rem;
-    color: var(--theme-accent, #ff6b6b);
+    color: var(--theme-accent);
   }
   .category-card p {
-    color: #ccc;
+    color: var(--theme-text-offset);
     line-height: 1.7;
   }
+  
+  .feynman-quote {
+		margin: 4rem auto;
+		padding: 0 1rem;
+		max-width: 700px;
+		font-style: italic;
+		text-align: center;
+		color: var(--theme-text-offset);
+		font-size: 1.1rem;
+		line-height: 1.7;
+	}
+	.feynman-quote .author {
+		font-style: normal;
+		font-weight: 500;
+		margin-top: 1rem;
+		color: var(--theme-text);
+	}
 </style>
