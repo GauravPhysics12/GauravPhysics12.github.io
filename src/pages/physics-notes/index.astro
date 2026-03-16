@@ -24,7 +24,6 @@ import { categories } from '../../config/notes.js';
   <Container>
     <section class="notes-list">
       {categories.map(category => {
-        // FAILSAFE: If a category is undefined or missing a name, skip it without crashing the build
         if (!category || !category.name) return null;
 
         return (
