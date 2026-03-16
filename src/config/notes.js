@@ -21,11 +21,11 @@ export const categories = [
                 title: 'Notes on Topological Manifolds',
                 pdfUrl: '/notes/topological-manifold.pdf',
             },
-			{
+            {
                 title: 'Notes on Multilinear Algebra',
                 pdfUrl: '/notes/Multilinear algebra (2).pdf',
             },
-			{
+            {
                 title: 'Notes on Manifolds',
                 pdfUrl: '/notes/Manifolds.pdf',
             },
@@ -46,13 +46,21 @@ export const categories = [
             },
         ],
     },
-    // Add your next category here
-    // {
-    //   name: 'Quantum Mechanics',
-    //   slug: 'quantum-mechanics',
-    //   description: 'Notes on...',
-    //   notes: [
-    //     { title: 'QM Part 1', pdfUrl: '/notes/qm-1.pdf' }
-    //   ]
-    // }
+    {
+        name: 'Workshops & Guest Lectures',
+        slug: 'workshops',
+        description: 'Presentation slides and handouts from various workshops and guest lectures.',
+        notes: [
+            {
+                title: 'Gravitational Perturbation Theory',
+                pdfUrl: '/notes/workshop-grav-perturbation.pdf',
+                comment: 'Slides from the session hosted by the IISc Astronomy Club.'
+            },
+            {
+                title: 'Astrophysics Overview',
+                pdfUrl: '/notes/guest-lecture-astrophysics.pdf',
+                comment: 'Slide deck from a recent guest lecture.'
+            },
+        ],
+    },
 ];
