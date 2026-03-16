@@ -2,139 +2,105 @@
 import { Container } from '@components/odyssey-theme';
 import Layout from '../../layouts/Page.astro';
 import { categories } from '../../config/notes.js';
-
-export async function getStaticPaths() {
-  return categories.map(category => {
-    return {
-      params: { slug: category.slug },
-      props: { category },
-    };
-  });
-}
-
-const { category } = Astro.props;
 ---
 
-<Layout title={`${category.name} | Physics Notes`}>
+<Layout>
   <section class="hero">
     <Container>
-      <nav class="breadcrumb">
-        <a href="/physics-notes" class="back-link">&larr; Back to All Notes</a>
-      </nav>
-      <h1>{category.name}</h1>
-      <p class="category-desc">{category.description}</p>
+      <h1>Physics Notes</h1>
+      <p>A collection of my study and research notes, organized by topic.</p>
     </Container>
   </section>
 
   <Container>
-    <section class="notes-list">
-      {category.notes.map(note => (
-        <div class="note-card">
-          <div class="note-info">
-            <h2>{note.title}</h2>
-            {note.comment && <p class="note-comment">{note.comment}</p>}
-          </div>
-          <div class="note-actions">
-            <a href={note.pdfUrl} class="button" target="_blank" rel="noopener noreferrer">
-              View PDF
-            </a>
-          </div>
-        </div>
-      ))}
+    <section class="notes-intro">
+      <p>
+        These notes are a synthesis of core texts like Sean Carroll’s <em>Spacetime and Geometry</em>, Bernard Schutz’s <em>A First Course in General Relativity</em>, and Prof. Frederic Schuller’s lectures. 
+        <strong>I have also integrated presentation slides from my various guest lectures and workshops.</strong>
+      </p>
     </section>
+  </Container>
+
+  <Container>
+    <section class="notes-list">
+      {categories.map(category => {
+        // FAILSAFE: If a category is undefined or missing a name, skip it without crashing the build
+        if (!category || !category.name) return null;
+
+        return (
+          <a href={`/physics-notes/${category.slug}`} class="category-card">
+            <h2>{category.name}</h2>
+            <p>{category.description}</p>
+          </a>
+        );
+      })}
+    </section>
+  </Container>
+  
+  <Container>
+    <div class="feynman-quote">
+      <p>"Study hard what interests you the most in the most undisciplined, irreverent and original manner possible."</p>
+      <p class="author">– Richard Feynman</p>
+    </div>
   </Container>
 </Layout>
 
 <style>
   .hero { text-align: center; padding: 4rem 1rem; background-color: var(--theme-bg-offset); }
-  
-  .breadcrumb { margin-bottom: 1.5rem; }
-  
-  .back-link {
-    display: inline-block;
-    color: var(--theme-text-offset);
-    text-decoration: none;
-    font-size: 0.9rem;
-    border: 1px solid var(--theme-border);
-    padding: 0.4rem 0.8rem;
-    border-radius: 5px;
-    transition: all 0.2s ease;
-  }
-  
-  .back-link:hover {
-    background-color: var(--theme-surface-1);
-    border-color: var(--theme-accent);
-    color: var(--theme-accent);
-  }
-
-  .category-desc {
-    max-width: 700px;
-    margin: 1rem auto 0;
-    line-height: 1.6;
-    color: var(--theme-text-offset);
-  }
-
-  .notes-list { margin: 3rem auto; max-width: 800px; }
-  
-  .note-card {
-    background-color: var(--theme-surface-1);
-    padding: 1.5rem 2rem;
-    margin-bottom: 1.5rem;
-    border-radius: 8px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    gap: 1.5rem;
-    border: 1px solid transparent;
-    transition: border-color 0.2s ease;
-  }
-
-  .note-card:hover {
-    border-color: var(--theme-accent-alpha, #ccc);
-  }
-
-  .note-info h2 { 
-    margin: 0; 
-    font-size: 1.4rem; 
-    color: var(--theme-on-surface-1); 
-    line-height: 1.3;
-  }
-  
-  .note-comment {
-    font-size: 0.95rem;
+  .notes-intro {
+    text-align: center;
+    max-width: 800px;
+    margin: 0 auto -1rem auto;
     font-style: italic;
     color: var(--theme-text-offset);
-    margin: 0.5rem 0 0 0;
-    line-height: 1.5;
+    line-height: 1.7;
   }
-
-  .button {
-    display: inline-block;
-    background-color: var(--theme-accent);
-    color: var(--theme-on-primary);
-    padding: 12px 24px;
+  .notes-intro strong {
+    display: block;
+    margin-top: 1rem;
+    color: var(--theme-text);
+    font-style: normal;
+  }
+  .notes-list { margin: 3rem auto; max-width: 800px; }
+  .category-card {
+    display: block;
+    background-color: var(--theme-surface-1);
+    border-left: 4px solid var(--theme-accent);
+    padding: 1.5rem 2rem;
+    margin-bottom: 2rem;
+    border-radius: 0 8px 8px 0;
     text-decoration: none;
-    border-radius: 5px;
-    font-weight: 600;
-    transition: background-color 0.2s ease, transform 0.1s ease;
-    white-space: nowrap;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    color: var(--theme-on-surface-1);
+  }
+  .category-card:hover {
+    transform: scale(1.02);
+    box-shadow: 0 8px 16px rgba(0,0,0,0.1);
+  }
+  .category-card h2 {
+    margin-top: 0;
+    font-size: 1.75rem;
+    color: var(--theme-accent);
+  }
+  .category-card p {
+    color: var(--theme-text-offset);
+    line-height: 1.7;
   }
   
-  .button:hover { 
-    background-color: var(--theme-accent-hover); 
-    transform: translateY(-1px);
-  }
-
-  /* Responsive adjustment for mobile */
-  @media (max-width: 600px) {
-    .note-card {
-      flex-direction: column;
-      align-items: flex-start;
-      padding: 1.5rem;
-    }
-    .button {
-      width: 100%;
-      text-align: center;
-    }
-  }
+  .feynman-quote {
+		margin: 4rem auto;
+		padding: 0 1rem;
+		max-width: 700px;
+		font-style: italic;
+		text-align: center;
+		color: var(--theme-text-offset);
+		font-size: 1.1rem;
+		line-height: 1.7;
+	}
+	.feynman-quote .author {
+		font-style: normal;
+		font-weight: 500;
+		margin-top: 1rem;
+		color: var(--theme-text);
+	}
 </style>
