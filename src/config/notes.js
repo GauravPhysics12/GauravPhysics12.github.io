@@ -52,14 +52,28 @@ export const categories = [
         description: 'Presentation slides and handouts from various workshops and guest lectures.',
         notes: [
             {
-                title: 'Gravitational Perturbation Theory',
-                pdfUrl: '/notes/workshop-grav-perturbation.pdf',
-                comment: 'Slides from the session hosted by the IISc Astronomy Club.'
+                title: 'Lecture 1: Basics',
+                pdfUrl: '/notes/Lecture 1.pptx',
             },
             {
-                title: 'Astrophysics Overview',
-                pdfUrl: '/notes/guest-lecture-astrophysics.pdf',
-                comment: 'Slide deck from a recent guest lecture.'
+                title: 'Lecture 2: Light and Radiation',
+                pdfUrl: '/notes/Lecture 2.pptx',
+            },
+            {
+                title: 'Lecture 3: Observations',
+                pdfUrl: '/notes/Lecture 3-Observation.pptx',
+            },
+            {
+                title: 'Lecture 4: Gravity & Perturbation',
+                pdfUrl: '/notes/Lecture 4-Gravitation.pptx',
+            },
+            {
+                title: 'Lecture 5: Stellar Astrophysics',
+                pdfUrl: '/notes/Lecture 5 - Stellar Astrophysics .pptx',
+            },
+            {
+                title: 'Lecture 6: Cosmology',
+                pdfUrl: '/notes/Lecture 6 -Cosmology .pptx',
             },
         ],
     },
