@@ -30,8 +30,8 @@ export const categories = [
             { title: 'Lecture 2: Light and Radiation', pdfUrl: '/notes/Lecture 2.pptx' },
             { title: 'Lecture 3: Observations', pdfUrl: '/notes/Lecture 3-Observation.pptx' },
             { title: 'Lecture 4: Gravity', pdfUrl: '/notes/Lecture 4-Gravitation.pptx' },
-            { title: 'Lecture 5: Stellar Astrophysics', pdfUrl: '/notes/Lecture 5 - Stellar Astrophysics .pptx' },
-            { title: 'Lecture 6: Cosmology', pdfUrl: '/notes/Lecture 6 -Cosmology .pptx' },
+            { title: 'Lecture 5: Stellar Astrophysics', pdfUrl: '/notes/Lecture 5-Stellar Astrophysics.pptx' },
+            { title: 'Lecture 6: Cosmology', pdfUrl: '/notes/Lecture 6-Cosmology.pptx' },
         ],
     },
 ];
