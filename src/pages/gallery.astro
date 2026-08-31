@@ -1,7 +1,8 @@
 ---
 import { Container } from '@components/odyssey-theme';
 import Layout from '../layouts/Page.astro';
-import FeynmanQuote from '../components/FeynmanQuote.astro';
+import exifr from 'exifr';
+import path from 'node:path';
 
 // Import all your images
 import fullMoon from '../assets/images/gallery/Full_moon.jpg';
@@ -19,51 +20,108 @@ import sunspots from '../assets/images/gallery/Sunspots.jpg';
 import totalLunar from '../assets/images/gallery/Total_lunar_eclipse_25.png';
 import firstMoon from '../assets/images/gallery/my_first_astrophotograph_half_moon.JPG';
 import telescopeSetup from '../assets/images/gallery/my_telescope_setup_celestron_130EQ.JPG';
-
-// ADDED: Import your two new images (CHECK THE FILENAMES AND EXTENSIONS)
 import roseNebula from '../assets/images/gallery/Rose-nebula.jpg';
 import flameHorseNebula from '../assets/images/gallery/Flame-Horse.jpg';
+
+// ---- EXIF helpers ----
+// Reads embedded camera metadata directly from the original source file at
+// build time (this runs on the server/build machine, never in the visitor's
+// browser). Many of these images have real shooting data baked in; some
+// (phone snapshots, heavily post-processed exports) have little or none —
+// in that case we just skip the EXIF block for that photo.
+const GALLERY_DIR = path.join(process.cwd(), 'src/assets/images/gallery');
+
+function formatExposure(seconds) {
+	if (!seconds) return null;
+	if (seconds >= 1) {
+		const mins = seconds / 60;
+		return mins >= 1 ? `${mins.toFixed(mins < 10 ? 1 : 0)} min` : `${seconds.toFixed(1)}s`;
+	}
+	return `1/${Math.round(1 / seconds)}s`;
+}
+
+async function getExifHtml(filename) {
+	try {
+		const data = await exifr.parse(path.join(GALLERY_DIR, filename));
+		if (!data || (!data.Make && !data.Model)) return '';
+
+		const camera = [data.Make, data.Model].filter(Boolean).join(' ');
+		const lens = data.LensModel;
+		const exposure = formatExposure(data.ExposureTime);
+		const aperture = data.FNumber ? 'f/' + data.FNumber : null;
+		const iso = data.ISO ? 'ISO ' + data.ISO : null;
+		const focalLength = data.FocalLength ? data.FocalLength + 'mm' : null;
+
+		const specs = [exposure, aperture, iso, focalLength].filter(Boolean).join(' &middot; ');
+
+		const parts = [];
+		if (camera) parts.push('<span class="exif-camera">\u{1F4F7} ' + camera + '</span>');
+		if (lens) parts.push('<span class="exif-lens">' + lens + '</span>');
+		if (specs) parts.push('<span class="exif-specs">' + specs + '</span>');
+
+		return '<div class="exif-block">' + parts.join('') + '</div>';
+	} catch {
+		return '';
+	}
+}
+
+const galleryItems = [
+	{ img: saturn, filename: 'Saturn.jpg', alt: 'The Ringed Planet Saturn', title: 'Saturn', description: 'A stunning view of **Saturn**, highlighting the intricate rings in sharp detail. Captured under clear skies to maximize clarity and contrast.' },
+	{ img: telescopeSetup, filename: 'my_telescope_setup_celestron_130EQ.JPG', alt: 'Telescope Setup', title: 'Telescope Setup', description: 'My deep-sky imaging rig: a **Celestron 130EQ telescope** with a sturdy mount, essential for long exposures and capturing faint celestial objects.' },
+	{ img: firstMoon, filename: 'my_first_astrophotograph_half_moon.JPG', alt: 'First Astrophotograph Moon', title: 'First Moon Capture', description: 'My first astrophotograph: the **waxing crescent Moon**. This image holds sentimental value and highlights the terminator line in sharp detail.' },
+	{ img: janComet, filename: 'Jan_2023_comet.jpg', alt: 'Comet ZTF January 2023', title: 'Comet ZTF', description: 'A rare sighting of **Comet ZTF (C/2022 E3)** in January 2023. The faint greenish coma and subtle tail are visible against the dark night sky.' },
+	{ img: fullMoon, filename: 'Full_moon.jpg', alt: 'Full Moon', title: 'Full Moon', description: 'A detailed, high-contrast image of the **Full Moon**, showing its bright surface, craters, and lunar mares in vivid clarity.' },
+	{ img: orionNebula, filename: 'Orion Nebula (Nearly-Final).jpg', alt: 'Orion Nebula', title: 'Orion Nebula', description: 'The **Orion Nebula (M42)**, a stellar nursery. This deep-sky exposure captures the vibrant gases and the bright **Trapezium Cluster** at its heart.' },
+	{ img: sunspots, filename: 'Sunspots.jpg', alt: 'Sunspots', title: 'Sunspots', description: 'Detailed view of the Sun\u2019s surface with prominent **sunspots**, areas of intense magnetic activity appearing darker due to lower temperature.' },
+	{ img: partialSolar, filename: 'Partial_solar_eclipse.jpg', alt: 'Partial Solar Eclipse', title: 'Partial Solar Eclipse', description: 'The Moon partially blocking the Sun during a **partial solar eclipse**, captured safely with proper solar filters.' },
+	{ img: openDarkSky, filename: 'Open_dark_sky_phone_astrophotography.jpg', alt: 'Open Dark Sky', title: 'Open Dark Sky', description: 'A wide-angle capture of a remote landscape under a clear night sky, emphasizing the stars and the sense of isolation in nature.' },
+	{ img: milkyWay, filename: 'MW_with_hill.jpeg', alt: 'Milky Way with Hill', title: 'Milky Way Over Hills', description: 'A wide-field view of the **Milky Way\'s galactic core** arching over a silhouetted hill, highlighting the grandeur of our galaxy.' },
+	{ img: perseusCluster, filename: 'Perseus Double Cluster.jpg', alt: 'Perseus Double Cluster', title: 'Perseus Double Cluster', description: 'The **Perseus Double Cluster (NGC 869 & NGC 884)**, a pair of young star clusters with bright blue stars, visible even with the naked eye in dark skies.' },
+	{ img: pleiades, filename: 'Pleiades.jpeg', alt: 'Pleiades Cluster', title: 'Pleiades (M45)', description: 'The famous **Pleiades (M45) cluster**, surrounded by a striking blue reflection nebula caused by interstellar dust scattering light from hot, young stars.' },
+	{ img: jupiter, filename: 'Jupiter.png', alt: 'Jupiter', title: 'Jupiter', description: 'A high-magnification view of **Jupiter**, showing cloud bands, minor storms, and the iconic **Great Red Spot**.' },
+	{ img: lunarEclipse, filename: 'Lunar Eclipse.png', alt: 'Total Lunar Eclipse', title: 'Total Lunar Eclipse', description: 'A mesmerizing **Total Lunar Eclipse**, with the Moon bathed in a deep red hue caused by sunlight filtered through Earth\u2019s atmosphere.' },
+	{ img: roseNebula, filename: 'Rose-nebula.jpg', alt: 'Rosette Nebula', title: 'Rosette Nebula', description: 'The **Rosette Nebula (Caldwell 49)**, a vast, circular cloud of gas and dust where new stars are being born.' },
+	{ img: flameHorseNebula, filename: 'Flame-Horse.jpg', alt: 'Flame and Horsehead Nebulae', title: 'Flame & Horsehead Nebulae', description: 'The iconic **Flame and Horsehead Nebulae** in Orion. The dark Horsehead Nebula is a famous silhouette against the glowing red emission nebula behind it.' },
+];
+
+for (const item of galleryItems) {
+	item.exifHtml = await getExifHtml(item.filename);
+}
 ---
 
-<Layout class="dark">
+<Layout>
 	<section class="hero">
 		<Container>
 			<h1>Astrophotography Gallery</h1>
-			<p>A collection of my favorite shots of the night sky. Click on any image to view details.</p>
+			<p>A collection of my favorite shots of the night sky. Click on any image to view details — including camera and exposure data where available.</p>
 		</Container>
 	</section>
 
 	<Container>
 		<section class="content-section">
 			<div class="gallery-grid">
-
-				<a href={saturn.src} class="glightbox gallery-item" data-description="A stunning view of **Saturn**, highlighting the intricate rings in sharp detail. Captured under clear skies to maximize clarity and contrast."><img src={saturn.src} alt="The Ringed Planet Saturn" /><p>Saturn</p></a>
-				<a href={telescopeSetup.src} class="glightbox gallery-item" data-description="My deep-sky imaging rig: a **Celestron 130EQ telescope** with a sturdy mount, essential for long exposures and capturing faint celestial objects."><img src={telescopeSetup.src} alt="Telescope Setup" /><p>Telescope Setup</p></a>
-				<a href={firstMoon.src} class="glightbox gallery-item" data-description="My first astrophotograph: the **waxing crescent Moon**. This image holds sentimental value and highlights the terminator line in sharp detail."><img src={firstMoon.src} alt="First Astrophotograph Moon" /><p>First Moon Capture</p></a>
-				<a href={janComet.src} class="glightbox gallery-item" data-description="A rare sighting of **Comet ZTF (C/2022 E3)** in January 2023. The faint greenish coma and subtle tail are visible against the dark night sky."><img src={janComet.src} alt="Comet ZTF January 2023" /><p>Comet ZTF</p></a>
-				<a href={fullMoon.src} class="glightbox gallery-item" data-description="A detailed, high-contrast image of the **Full Moon**, showing its bright surface, craters, and lunar mares in vivid clarity."><img src={fullMoon.src} alt="Full Moon" /><p>Full Moon</p></a>
-				<a href={orionNebula.src} class="glightbox gallery-item" data-description="The **Orion Nebula (M42)**, a stellar nursery. This deep-sky exposure captures the vibrant gases and the bright **Trapezium Cluster** at its heart."><img src={orionNebula.src} alt="Orion Nebula" /><p>Orion Nebula</p></a>
-				<a href={sunspots.src} class="glightbox gallery-item" data-description="Detailed view of the Sun’s surface with prominent **sunspots**, areas of intense magnetic activity appearing darker due to lower temperature."><img src={sunspots.src} alt="Sunspots" /><p>Sunspots</p></a>
-				<a href={partialSolar.src} class="glightbox gallery-item" data-description="The Moon partially blocking the Sun during a **partial solar eclipse**, captured safely with proper solar filters."><img src={partialSolar.src} alt="Partial Solar Eclipse" /><p>Partial Solar Eclipse</p></a>
-				<a href={openDarkSky.src} class="glightbox gallery-item" data-description="A wide-angle capture of a remote landscape under a clear night sky, emphasizing the stars and the sense of isolation in nature."><img src={openDarkSky.src} alt="Open Dark Sky" /><p>Open Dark Sky</p></a>
-				<a href={milkyWay.src} class="glightbox gallery-item" data-description="A wide-field view of the **Milky Way's galactic core** arching over a silhouetted hill, highlighting the grandeur of our galaxy."><img src={milkyWay.src} alt="Milky Way with Hill" /><p>Milky Way Over Hills</p></a>
-				<a href={perseusCluster.src} class="glightbox gallery-item" data-description="The **Perseus Double Cluster (NGC 869 & NGC 884)**, a pair of young star clusters with bright blue stars, visible even with the naked eye in dark skies."><img src={perseusCluster.src} alt="Perseus Double Cluster" /><p>Perseus Double Cluster</p></a>
-				<a href={pleiades.src} class="glightbox gallery-item" data-description="The famous **Pleiades (M45) cluster**, surrounded by a striking blue reflection nebula caused by interstellar dust scattering light from hot, young stars."><img src={pleiades.src} alt="Pleiades Cluster" /><p>Pleiades (M45)</p></a>
-				<a href={jupiter.src} class="glightbox gallery-item" data-description="A high-magnification view of **Jupiter**, showing cloud bands, minor storms, and the iconic **Great Red Spot**."><img src={jupiter.src} alt="Jupiter" /><p>Jupiter</p></a>
-				<a href={lunarEclipse.src} class="glightbox gallery-item" data-description="A mesmerizing **Total Lunar Eclipse**, with the Moon bathed in a deep red hue caused by sunlight filtered through Earth’s atmosphere."><img src={lunarEclipse.src} alt="Total Lunar Eclipse" /><p>Total Lunar Eclipse</p></a>
-				
-				<a href={roseNebula.src} class="glightbox gallery-item" data-description="The **Rosette Nebula (Caldwell 49)**, a vast, circular cloud of gas and dust where new stars are being born."><img src={roseNebula.src} alt="Rosette Nebula" /><p>Rosette Nebula</p></a>
-				<a href={flameHorseNebula.src} class="glightbox gallery-item" data-description="The iconic **Flame and Horsehead Nebulae** in Orion. The dark Horsehead Nebula is a famous silhouette against the glowing red emission nebula behind it."><img src={flameHorseNebula.src} alt="Flame and Horsehead Nebulae" /><p>Flame & Horsehead Nebulae</p></a>
-
+				{galleryItems.map((item) => (
+					<a
+						href={item.img.src}
+						class="glightbox gallery-item"
+						data-description={`${item.description}${item.exifHtml}`}
+					>
+						<img src={item.img.src} alt={item.alt} />
+						<p>{item.title}</p>
+					</a>
+				))}
 			</div>
 		</section>
 	</Container>
 
 	<div class="feynman-quote">
-		<p>"There are 10<sup>11</sup> stars in the galaxy. That used to be a huge number. But it's only a hundred billion. It's less than the national deficit! We used to call them astronomical numbers. Now we should call them economical numbers."</p>
-		<p class="author">– Richard Feynman</p>
+		<span class="feynman-quote__mark" aria-hidden="true">&ldquo;</span>
+		<p>There are 10<sup>11</sup> stars in the galaxy. That used to be a huge number. But it's only a hundred billion. It's less than the national deficit! We used to call them astronomical numbers. Now we should call them economical numbers.</p>
+		<p class="author">— Richard Feynman</p>
 	</div>
-</Layout> <script is:inline>
+</Layout>
+
+<script is:inline>
 	document.addEventListener('DOMContentLoaded', function() {
 		const lightbox = GLightbox({
 			selector: '.glightbox',
@@ -75,38 +133,114 @@ import flameHorseNebula from '../assets/images/gallery/Flame-Horse.jpg';
 </script>
 
 <style>
-	/* FIXED: Merged all styles into one block */
-	.hero { text-align: center; padding: 4rem 1rem; background-color: var(--theme-dark-bg, #111); color: var(--theme-light-color, #fff); }
-	.content-section { margin: 3rem auto; }
-	.gallery-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1.5rem; }
-	.gallery-item { text-align: center; background-color: #222; border-radius: 8px; overflow: hidden; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3); display: flex; flex-direction: column; text-decoration: none; transition: transform 0.2s ease-in-out; }
-	.gallery-item:hover { transform: scale(1.03); }
-	.gallery-item img { width: 100%; height: 200px; object-fit: cover; border-bottom: 1px solid #333; }
-	.gallery-item p { padding: 1rem 0.5rem; margin: 0; color: #eee; font-size: 0.9rem; flex-grow: 1; display: flex; align-items: center; justify-content: center; }
+	.hero {
+		text-align: center;
+		padding: 5rem 1rem 3rem;
+	}
+	.hero p {
+		color: var(--theme-on-bg-muted);
+		max-width: 600px;
+		margin: 0.5rem auto 0;
+	}
+	.content-section {
+		margin: 2rem auto 4rem;
+	}
+	.gallery-grid {
+		display: grid;
+		grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+		gap: 1.5rem;
+	}
+	.gallery-item {
+		text-align: center;
+		background: linear-gradient(160deg, var(--theme-surface-1), var(--theme-bg-elevated));
+		border: 1px solid var(--theme-border);
+		border-radius: var(--theme-shape-radius);
+		overflow: hidden;
+		display: flex;
+		flex-direction: column;
+		text-decoration: none;
+		transition: transform var(--theme-transition), border-color var(--theme-transition), box-shadow var(--theme-transition);
+	}
+	.gallery-item:hover {
+		transform: translateY(-4px);
+		border-color: rgba(127, 216, 255, 0.35);
+		box-shadow: 0 16px 32px -18px rgba(0, 0, 0, 0.6);
+	}
+	.gallery-item img {
+		width: 100%;
+		height: 200px;
+		object-fit: cover;
+		border-bottom: 1px solid var(--theme-border);
+	}
+	.gallery-item p {
+		padding: 1rem 0.5rem;
+		margin: 0;
+		color: var(--theme-on-bg);
+		font-weight: 500;
+		font-size: 0.95rem;
+		flex-grow: 1;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+	}
 
 	.feynman-quote {
-		margin: 4rem auto;
-		padding: 0 1rem;
-		max-width: 700px;
-		font-style: italic;
+		position: relative;
+		margin: 5rem auto;
+		padding: 3rem 1.5rem;
+		max-width: 720px;
 		text-align: center;
-		color: var(--theme-text-offset);
-		font-size: 1.1rem;
-		line-height: 1.7;
+	}
+	.feynman-quote__mark {
+		display: block;
+		font-family: var(--theme-font-family-serif);
+		font-size: 5rem;
+		line-height: 1;
+		color: var(--theme-highlight);
+		opacity: 0.5;
+		margin-bottom: -1rem;
+	}
+	.feynman-quote p:not(.author) {
+		font-style: italic;
+		font-size: 1.3rem;
+		line-height: 1.6;
+		color: var(--theme-on-bg);
+		font-family: var(--theme-font-family-serif);
 	}
 	.feynman-quote .author {
 		font-style: normal;
-		font-weight: 500;
-		margin-top: 1rem;
-		color: var(--theme-text);
+		font-weight: 700;
+		margin-top: 1.25rem;
+		letter-spacing: 0.04em;
+		text-transform: uppercase;
+		font-size: var(--font-size-sm);
+		color: var(--theme-primary);
 	}
 </style>
 
 <style is:global>
 	.gslide-description {
-		background: rgba(255, 255, 255, 0.85) !important;
+		background: var(--theme-surface-1) !important;
 	}
-	.gslide-description .gslide-desc-inner, .gslide-description .gslide-desc-inner * {
-		color: #111 !important;
+	.gslide-description .gslide-desc-inner,
+	.gslide-description .gslide-desc-inner * {
+		color: var(--theme-on-bg) !important;
+	}
+	.exif-block {
+		display: flex;
+		flex-wrap: wrap;
+		gap: 0.5rem 1rem;
+		margin-top: 0.75rem;
+		padding-top: 0.75rem;
+		border-top: 1px solid var(--theme-border);
+		font-size: 0.85rem;
+	}
+	.exif-camera {
+		font-weight: 700;
+		color: var(--theme-primary) !important;
+	}
+	.exif-lens,
+	.exif-specs {
+		color: var(--theme-on-bg-muted) !important;
 	}
 </style>

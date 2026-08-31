@@ -1,6 +1,7 @@
 ---
 import { Container } from '@components/odyssey-theme';
 import Layout from '../layouts/Page.astro';
+import LiveSkyChart from '../components/LiveSkyChart.astro';
 
 import jwstImage from '../assets/images/Home/ripple.gif';
 import codeImage from '../assets/images/Home/code.jpg';
@@ -11,10 +12,12 @@ import blogImage from '../assets/images/Home/blog.png';
 
 <Layout>
 	<section class="hero">
+		<div class="hero__glow" aria-hidden="true"></div>
 		<Container>
 			<div class="hero__content">
+				<p class="hero__eyebrow">Physics &middot; Astrophotography &middot; Curiosity</p>
 				<h1>Gaurav Rachh</h1>
-				<p>"Curious human"</p>
+				<p class="hero__tagline">"Curious human"</p>
 			</div>
 		</Container>
 	</section>
@@ -92,117 +95,182 @@ import blogImage from '../assets/images/Home/blog.png';
 				<img src={blogImage.src} alt="Doodle of people talking for blog" />
 			</div>
 		</section>
+	<Container>
+		<LiveSkyChart />
+	</Container>
+
 	</Container>
 
 	<div class="feynman-quote">
-    <p>"The first principle is that you must not fool yourself and you are the easiest person to fool."</p>
-    <p class="author">– Richard Feynman</p>
+		<span class="feynman-quote__mark" aria-hidden="true">&ldquo;</span>
+		<p>The first principle is that you must not fool yourself and you are the easiest person to fool.</p>
+		<p class="author">— Richard Feynman</p>
 	</div>
 </Layout>
 
 <style>
-	/* Mobile-first styles */
+	/* ---------- Hero ---------- */
 	.hero {
-		padding: 4rem 1rem;
+		position: relative;
+		padding: 5rem 1rem 4rem;
 		text-align: center;
-		background-color: var(--theme-bg-offset);
+		overflow: hidden;
 	}
-	.hero h1 {
-		font-size: 2.5rem;
+	.hero__glow {
+		position: absolute;
+		inset: -20% -10% auto -10%;
+		height: 32rem;
+		background:
+			radial-gradient(45% 60% at 30% 20%, var(--theme-glow-cyan), transparent 70%),
+			radial-gradient(35% 50% at 75% 30%, var(--theme-glow-gold), transparent 70%);
+		filter: blur(20px);
+		pointer-events: none;
+		z-index: 0;
+	}
+	.hero__content {
+		position: relative;
+		z-index: 1;
+	}
+	.hero__eyebrow {
+		text-transform: uppercase;
+		letter-spacing: 0.15em;
+		font-size: var(--font-size-sm);
+		color: var(--theme-primary);
 		margin-bottom: 1rem;
 	}
-	.hero p {
-		font-size: 1.1rem;
-		color: var(--theme-text-offset);
+	.hero h1 {
+		font-size: clamp(2.5rem, 6vw, 4rem);
+		margin-bottom: 0.75rem;
+		background: linear-gradient(135deg, var(--theme-on-bg) 30%, var(--theme-primary) 100%);
+		-webkit-background-clip: text;
+		background-clip: text;
+		color: transparent;
+	}
+	.hero__tagline {
+		font-style: italic;
+		font-size: 1.15rem;
+		color: var(--theme-on-bg-muted);
 		max-width: 600px;
 		margin: auto;
 	}
+
+	/* ---------- Intro ---------- */
 	.intro-section {
-		padding: 3rem 1rem;
+		padding: 1rem 1rem 3rem;
 		text-align: center;
 	}
 	.intro-section p {
-		max-width: 800px;
+		max-width: 760px;
 		margin: auto;
 		font-size: 1.1rem;
-		line-height: 1.7;
-		color: var(--theme-text-offset);
+		line-height: 1.8;
+		color: var(--theme-on-bg-muted);
 	}
+
+	/* ---------- Split sections as glass cards ---------- */
 	.split-section {
 		display: grid;
 		grid-template-columns: 1fr;
-		gap: 2.5rem;
+		gap: 2rem;
 		align-items: center;
-		margin: 4rem auto;
+		margin: 3rem auto;
+		padding: 2rem;
+		border-radius: var(--theme-shape-radius);
+		background: linear-gradient(160deg, var(--theme-surface-1), var(--theme-bg-elevated));
+		border: 1px solid var(--theme-border);
+		transition: border-color var(--theme-transition), transform var(--theme-transition), box-shadow var(--theme-transition);
+	}
+	.split-section:hover {
+		border-color: rgba(127, 216, 255, 0.35);
+		transform: translateY(-4px);
+		box-shadow: 0 20px 40px -20px rgba(0, 0, 0, 0.6);
 	}
 	.split-section.reverse .split-section__image {
 		order: -1;
 	}
 	.split-section__text h2 {
-		font-size: 2rem;
+		font-size: 1.75rem;
 		margin-top: 0;
 		margin-bottom: 1rem;
+		color: var(--theme-on-bg);
 	}
 	.split-section__text p {
 		font-size: 1rem;
-		line-height: 1.7;
-		color: var(--theme-text-offset);
+		line-height: 1.75;
+		color: var(--theme-on-bg-muted);
 		margin-bottom: 1.5rem;
 	}
 	.split-section__image img {
 		width: 100%;
 		height: auto;
-		border-radius: 8px;
-		box-shadow: 0 8px 16px rgba(0, 0, 0, 0.4);
+		border-radius: calc(var(--theme-shape-radius) - 0.4rem);
+		box-shadow: 0 8px 24px rgba(0, 0, 0, 0.5);
 	}
 	.button {
-		display: inline-block;
+		display: inline-flex;
+		align-items: center;
+		gap: 0.4rem;
 		background-color: var(--theme-accent);
-		color: white;
-		padding: 10px 20px;
+		color: var(--theme-on-primary);
+		padding: 0.7rem 1.4rem;
 		text-decoration: none;
-		border-radius: 5px;
-		font-weight: bold;
-		transition: background-color 0.2s ease;
+		border-radius: var(--theme-button-border-radius);
+		font-weight: 700;
+		font-size: var(--font-size-sm);
+		transition: background-color var(--theme-transition), transform var(--theme-transition);
 	}
 	.button:hover {
 		background-color: var(--theme-accent-hover);
+		transform: translateX(2px);
 	}
+
+	/* ---------- Feynman quote ---------- */
 	.feynman-quote {
-		margin: 4rem auto;
-		padding: 0 1rem;
-		max-width: 700px;
-		font-style: italic;
+		position: relative;
+		margin: 5rem auto;
+		padding: 3rem 1.5rem;
+		max-width: 720px;
 		text-align: center;
-		color: var(--theme-text-offset);
-		font-size: 1.1rem;
-		line-height: 1.7;
+	}
+	.feynman-quote__mark {
+		display: block;
+		font-family: var(--theme-font-family-serif);
+		font-size: 5rem;
+		line-height: 1;
+		color: var(--theme-highlight);
+		opacity: 0.5;
+		margin-bottom: -1rem;
+	}
+	.feynman-quote p:not(.author) {
+		font-style: italic;
+		font-size: 1.3rem;
+		line-height: 1.6;
+		color: var(--theme-on-bg);
+		font-family: var(--theme-font-family-serif);
 	}
 	.feynman-quote .author {
 		font-style: normal;
-		font-weight: 500;
-		margin-top: 1rem;
-		color: var(--theme-text);
+		font-weight: 700;
+		margin-top: 1.25rem;
+		letter-spacing: 0.04em;
+		text-transform: uppercase;
+		font-size: var(--font-size-sm);
+		color: var(--theme-primary);
 	}
 
 	/* Desktop Overrides */
 	@media (min-width: 768px) {
 		.hero {
-			padding: 6rem 1rem;
-		}
-		.hero h1 {
-			font-size: 3.5rem;
-		}
-		.hero p {
-			font-size: 1.25rem;
+			padding: 8rem 1rem 6rem;
 		}
 		.split-section {
 			grid-template-columns: repeat(2, 1fr);
-			gap: 4rem;
-			margin: 5rem auto;
+			gap: 3.5rem;
+			margin: 4rem auto;
+			padding: 3rem;
 		}
 		.split-section__text h2 {
-			font-size: 2.5rem;
+			font-size: 2.25rem;
 		}
 	}
 </style>

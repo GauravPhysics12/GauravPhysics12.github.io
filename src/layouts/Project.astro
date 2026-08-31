@@ -14,8 +14,15 @@ const seo: SEOProps = {
 <PageLayout {seo}>
   <Container>
     <article class="post">
+      <a href="/projects" class="post-back">&larr; All Projects</a>
       <header class="post-header">
         <h1>{frontmatter.title}</h1>
+        {frontmatter.publishDate && <time>{frontmatter.publishDate}</time>}
+        {frontmatter.tags && (
+          <div class="post-tags">
+            {frontmatter.tags.map((tag: string) => <span class="post-tag">{tag}</span>)}
+          </div>
+        )}
       </header>
       <div class="prose">
         <slot />
@@ -26,16 +33,41 @@ const seo: SEOProps = {
 
 <style>
   .post { padding-bottom: 3rem; }
-  .post-header { text-align: center; margin: 3rem 0; }
-  .post-header h1 { font-size: 3.5rem; margin-bottom: 1rem; }
-  .post-header time { color: var(--theme-text-offset); }
+  .post-back {
+    display: inline-block;
+    margin-top: 2rem;
+    color: var(--theme-on-bg-muted);
+    text-decoration: none;
+    font-size: var(--font-size-sm);
+    transition: color var(--theme-transition);
+  }
+  .post-back:hover { color: var(--theme-primary); }
+  .post-header { text-align: center; margin: 2rem 0 3rem; }
+  .post-header h1 { font-size: clamp(2.25rem, 5vw, 3.25rem); margin-bottom: 0.75rem; }
+  .post-header time { color: var(--theme-on-bg-muted); font-size: var(--font-size-sm); }
+  .post-tags {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 0.5rem;
+    margin-top: 1rem;
+  }
+  .post-tag {
+    padding: 0.3rem 0.8rem;
+    border-radius: var(--theme-button-border-radius);
+    background-color: var(--theme-surface-1);
+    border: 1px solid var(--theme-border);
+    color: var(--theme-on-bg-muted);
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+  }
   .prose { max-width: 800px; margin: auto; }
-  .prose :global(p), .prose :global(ul), .prose :global(ol) { line-height: 1.8; }
+  .prose :global(p), .prose :global(ul), .prose :global(ol) { line-height: 1.8; color: var(--theme-on-bg-muted); }
   .prose :global(a.button), .prose :global(a.button-small) { /* ...button styles... */ }
 
-  /* ✅ THIS IS THE FINAL, CORRECTED STYLE */
   .prose :global(blockquote.clean-quote) {
-    border-left: none !important; /* Forcefully removes the left border */
+    border-left: none !important;
     padding: 0;
     margin: 2rem 0;
   }

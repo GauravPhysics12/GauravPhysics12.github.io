@@ -6,96 +6,153 @@ import { getCollection } from 'astro:content';
 const ProjectPosts = await getCollection('projects');
 
 const sortedPosts = ProjectPosts.sort(
-  (a, b) => new Date(b.data.publishDate).valueOf() - new Date(a.data.publishDate).valueOf()
+	(a, b) => new Date(b.data.publishDate).valueOf() - new Date(a.data.publishDate).valueOf()
 );
 ---
 
 <Layout>
-  <Container>
-    <div class="page-hero">
-      <h1>Research Projects</h1>
-      <p>These are some of the projects that I have worked on during my studies at IISc. I have discussed the work I did and also some backstory behind them! Click on each tab to view..</p>
-    </div>
+	<Container>
+		<div class="page-hero">
+			<h1>Research Projects</h1>
+			<p>Some of the projects I've worked on during my studies at IISc — the ideas behind them, and the physics underneath. Click any card to read more.</p>
+		</div>
 
-    <section class="posts-list-section">
-      <div class="posts-grid">
-        {sortedPosts.map(post => (
-          <a href={`/projects/${post.slug}`} class="post-card">
-            {post.data.featuredImage && (
-              <img
-                src={post.data.featuredImage}
-                alt={post.data.title}
-                class="post-card__image"
-              />
-            )}
-            <div class="post-card__content">
-              <h3>{post.data.title}</h3>
-              <p>{post.data.excerpt}</p>
-            </div>
-          </a>
-        ))}
-      </div>
-    </section>
-  </Container>
-   <!-- Feynman Quote at the end -->
-  <div class="feynman-quote">
-    "Religion is a culture of faith; science is a culture of doubt." – Richard Feynman
-  </div>
-</Layout>
+		<section class="posts-list-section">
+			<div class="posts-grid">
+				{sortedPosts.map((post) => (
+					<a href={`/projects/${post.slug}`} class="post-card">
+						{post.data.featuredImage && (
+							<div class="post-card__image-wrap">
+								<img src={post.data.featuredImage} alt={post.data.title} class="post-card__image" />
+							</div>
+						)}
+						<div class="post-card__content">
+							<h3>{post.data.title}</h3>
+							<p>{post.data.excerpt}</p>
+						</div>
+					</a>
+				))}
+			</div>
+		</section>
+	</Container>
 
-
-
-<style>
-  .blog-posts-list__section {
-    margin: var(--section-margin) auto;
-  }
-
-  .page-hero {
-    text-align: center;
-    padding: 3rem 0;
-  }
-
-  /* Feynman quote styling same as home page */
-.feynman-quote {
-  margin: 4rem 0;
-  font-style: italic;
-  text-align: center;
-  color: var(--theme-text); /* normal text color, not grey */
-  font-size: 1.1rem;
-}
-
-.feynman-quote p:last-child {
-  font-style: normal; /* author not italic */
-  font-weight: 500;
-  margin-top: 1.5rem;
-}
-
-</style>
+	<div class="feynman-quote">
+		<span class="feynman-quote__mark" aria-hidden="true">&ldquo;</span>
+		<p>Religion is a culture of faith; science is a culture of doubt.</p>
+		<p class="author">— Richard Feynman</p>
+	</div>
 </Layout>
 
 <style>
-  .page-hero { padding: 3rem 0; text-align: center; }
-  .page-hero h1 { font-size: 3.5rem; margin-bottom: 1rem; }
-  .posts-list-section { margin: var(--section-margin) auto; }
-  .posts-grid { display: grid; grid-template-columns: 1fr; gap: 2.5rem; }
-  @media (min-width: 768px) { .posts-grid { grid-template-columns: repeat(2, 1fr); } }
-  .post-card { display: block; background-color: var(--theme-bg-offset); border-radius: 8px; overflow: hidden; text-decoration: none; color: var(--theme-text); transition: transform 0.2s ease; }
-  .post-card:hover { transform: translateY(-5px); }
-  
-  /* --- FIX 2: FEATURED IMAGE ON INDEX PAGE --- */
-  .post-card__image { 
-    width: 100%; 
-    /* Use min-height to reserve space, but let auto height take over */
-    min-height: 220px; 
-    height: auto; 
-    /* Change from 'cover' to 'contain' to ensure the entire image is visible */
-    object-fit: contain; 
-    /* Set a background to fill the empty space left by 'contain' */
-    background-color: var(--theme-bg-offset);
-    padding: 1rem; /* Optional: Add some padding for better spacing */
-  }
+	.page-hero {
+		text-align: center;
+		padding: 5rem 1rem 3rem;
+	}
+	.page-hero h1 {
+		font-size: clamp(2.25rem, 5vw, 3.25rem);
+		margin-bottom: 0.75rem;
+	}
+	.page-hero p {
+		color: var(--theme-on-bg-muted);
+		max-width: 620px;
+		margin: 0 auto;
+	}
 
-  .post-card__content { padding: 1.5rem; }
-  .post-card__content h3 { margin: 0 0 0.75rem 0; font-size: 1.6rem; }
-  .post-card__content p { margin: 0; color: var(--theme-text-offset); }
+	.posts-list-section {
+		margin: 1rem auto 4rem;
+	}
+	.posts-grid {
+		display: grid;
+		grid-template-columns: 1fr;
+		gap: 2rem;
+	}
+	@media (min-width: 768px) {
+		.posts-grid {
+			grid-template-columns: repeat(2, 1fr);
+		}
+	}
+
+	.post-card {
+		display: flex;
+		flex-direction: column;
+		background: linear-gradient(160deg, var(--theme-surface-1), var(--theme-bg-elevated));
+		border: 1px solid var(--theme-border);
+		border-radius: var(--theme-shape-radius);
+		overflow: hidden;
+		text-decoration: none;
+		color: var(--theme-on-bg);
+		transition: transform var(--theme-transition), border-color var(--theme-transition), box-shadow var(--theme-transition);
+	}
+	.post-card:hover {
+		transform: translateY(-4px);
+		border-color: rgba(127, 216, 255, 0.35);
+		box-shadow: 0 16px 32px -18px rgba(0, 0, 0, 0.6);
+	}
+
+	.post-card__image-wrap {
+		width: 100%;
+		background-color: var(--theme-bg);
+		border-bottom: 1px solid var(--theme-border);
+		display: flex;
+		align-items: center;
+		justify-content: center;
+	}
+	.post-card__image {
+		width: 100%;
+		height: auto;
+		max-height: 320px;
+		object-fit: contain;
+		display: block;
+	}
+
+	.post-card__content {
+		padding: 1.5rem;
+		display: flex;
+		flex-direction: column;
+		flex-grow: 1;
+	}
+	.post-card__content h3 {
+		margin: 0 0 0.75rem 0;
+		font-size: 1.4rem;
+		color: var(--theme-on-bg);
+	}
+	.post-card__content p {
+		margin: 0;
+		color: var(--theme-on-bg-muted);
+		font-size: 0.95rem;
+		line-height: 1.6;
+	}
+
+	.feynman-quote {
+		position: relative;
+		margin: 5rem auto;
+		padding: 3rem 1.5rem;
+		max-width: 720px;
+		text-align: center;
+	}
+	.feynman-quote__mark {
+		display: block;
+		font-family: var(--theme-font-family-serif);
+		font-size: 5rem;
+		line-height: 1;
+		color: var(--theme-highlight);
+		opacity: 0.5;
+		margin-bottom: -1rem;
+	}
+	.feynman-quote p:not(.author) {
+		font-style: italic;
+		font-size: 1.3rem;
+		line-height: 1.6;
+		color: var(--theme-on-bg);
+		font-family: var(--theme-font-family-serif);
+	}
+	.feynman-quote .author {
+		font-style: normal;
+		font-weight: 700;
+		margin-top: 1.25rem;
+		letter-spacing: 0.04em;
+		text-transform: uppercase;
+		font-size: var(--font-size-sm);
+		color: var(--theme-primary);
+	}
 </style>

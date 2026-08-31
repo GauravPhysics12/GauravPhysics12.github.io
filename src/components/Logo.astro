@@ -2,32 +2,40 @@
 ---
 
 <a href="/" class="odyssey-logo">
-  <img src="/logo.png" alt="Gaurav Rachh Logo" class="logo-img" />
-  <span class="logo-text">Gaurav Rachh</span>
+  <img src="/logo.png" alt="Gaurav Rachh Logo" class="logo-img" />
+  <span class="logo-text">Gaurav Rachh</span>
 </a>
 
 <style>
-  .odyssey-logo {
-    display: flex;
-    align-items: center;
-    text-decoration: none;
-    color: inherit;
-    font-family: var(--theme-font-family-serif);
-  }
+  .odyssey-logo {
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+    color: inherit;
+    font-family: var(--theme-font-family-serif);
+  }
 
-  .logo-img {
-    height: 40px; /* adjust logo height as you prefer */
-    width: auto;
-    margin-right: 0.5rem;
-    transition: opacity 0.3s ease;
-  }
+  .logo-img {
+    height: 36px;
+    width: auto;
+    margin-right: 0.6rem;
+    transition: opacity 0.3s ease;
+    border-radius: 50%;
+  }
 
-  .logo-img:hover {
-    opacity: 0.8;
-  }
+  .logo-img:hover {
+    opacity: 0.8;
+  }
 
-  .logo-text {
-    font-size: var(--font-size-md);
-    font-weight: 600;
-  }
+  .logo-text {
+    font-size: var(--font-size-sm);
+    font-weight: 700;
+    letter-spacing: 0.02em;
+    color: var(--theme-on-bg);
+    transition: color 0.2s ease;
+  }
+
+  .odyssey-logo:hover .logo-text {
+    color: var(--theme-primary);
+  }
 </style>

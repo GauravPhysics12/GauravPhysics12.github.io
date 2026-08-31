@@ -1,0 +1,1194 @@
+---
+const DEFAULT_LAT = 23.2420;
+const DEFAULT_LON = 69.6669;
+const DEFAULT_LABEL = 'Bhuj, India';
+
+function buildStellariumSrc(lat, lon, date = new Date()) {
+	const params = new URLSearchParams({
+		lat: String(lat),
+		lng: String(lon),
+		date: date.toISOString(),
+	});
+
+	return `https://stellarium-web.org/?${params.toString()}`;
+}
+
+const defaultSrc = buildStellariumSrc(
+	DEFAULT_LAT,
+	DEFAULT_LON
+);
+---
+
+<section class="sky-chart">
+
+	<!-- =========================================================
+	     HEADER
+	     ========================================================= -->
+
+	<div class="sky-chart__header">
+
+		<div class="sky-chart__intro">
+
+			<span class="sky-chart__eyebrow">
+				INTERACTIVE PLANETARIUM
+			</span>
+
+			<h2>
+				Explore the Sky
+			</h2>
+
+			<p>
+				Explore the real sky above your location with stars,
+				planets, constellations, the Milky Way, atmospheric
+				lighting and the horizon rendered together.
+			</p>
+
+		</div>
+
+
+		<!-- =====================================================
+		     CONTROLS + LOCATION
+		     ===================================================== -->
+
+		<div class="sky-chart__control-area">
+
+			<div class="sky-chart__controls">
+
+				<button
+					id="skyLocateBtn"
+					class="sky-chart__button sky-chart__button--primary"
+					type="button"
+				>
+					<span>◎</span>
+
+					<span id="skyLocateText">
+						Use my location
+					</span>
+				</button>
+
+
+				<button
+					id="skyNowBtn"
+					class="sky-chart__button sky-chart__button--secondary"
+					type="button"
+				>
+					◷ Live sky
+				</button>
+
+
+				<button
+					id="skyNightBtn"
+					class="sky-chart__button sky-chart__button--secondary"
+					type="button"
+				>
+					🌙 Tonight
+				</button>
+
+
+				<button
+					id="skyResetBtn"
+					class="sky-chart__button sky-chart__button--secondary"
+					type="button"
+				>
+					↻ Reset
+				</button>
+
+			</div>
+
+
+			<div class="sky-chart__active-location">
+
+				<span class="sky-chart__location-dot"></span>
+
+				<span id="skyLocationLabel">
+					{DEFAULT_LABEL}
+				</span>
+
+			</div>
+
+		</div>
+
+	</div>
+
+
+	<!-- =========================================================
+	     VIEWER
+	     ========================================================= -->
+
+	<div class="sky-chart__viewer">
+
+		<iframe
+			id="skyFrame"
+			title="Stellarium interactive sky"
+			loading="lazy"
+			src={defaultSrc}
+			allow="geolocation; fullscreen"
+			referrerpolicy="strict-origin-when-cross-origin"
+		></iframe>
+
+	</div>
+
+
+	<!-- =========================================================
+	     FOOTER
+	     ========================================================= -->
+
+	<div class="sky-chart__footer">
+
+		<p>
+			The planetarium uses Stellarium Web, so the Milky Way,
+			daylight, twilight, stars, planets and horizon all move
+			together in the same astronomical coordinate system.
+		</p>
+
+		<span>
+			Powered by Stellarium Web
+		</span>
+
+	</div>
+
+</section>
+
+
+<script define:vars={{ DEFAULT_LAT, DEFAULT_LON }}>
+
+	/* ============================================================
+	   DOM
+	   ============================================================ */
+
+	const skyFrame =
+		document.querySelector('#skyFrame');
+
+	const locateBtn =
+		document.querySelector('#skyLocateBtn');
+
+	const locateText =
+		document.querySelector('#skyLocateText');
+
+	const skyNowBtn =
+		document.querySelector('#skyNowBtn');
+
+	const skyNightBtn =
+		document.querySelector('#skyNightBtn');
+
+	const resetBtn =
+		document.querySelector('#skyResetBtn');
+
+	const locationLabel =
+		document.querySelector('#skyLocationLabel');
+
+
+	let currentLat =
+		DEFAULT_LAT;
+
+	let currentLon =
+		DEFAULT_LON;
+
+
+	let currentMode =
+		'live';
+
+
+	/* ============================================================
+	   BUILD STELLARIUM URL
+	   ============================================================ */
+
+	function buildSrc(
+		lat,
+		lon,
+		date
+	) {
+
+		const params =
+			new URLSearchParams({
+
+				lat:
+					String(lat),
+
+				lng:
+					String(lon),
+
+				date:
+					date.toISOString(),
+
+			});
+
+
+		return (
+			'https://stellarium-web.org/?' +
+			params.toString()
+		);
+
+	}
+
+
+	/* ============================================================
+	   UPDATE FRAME
+	   ============================================================ */
+
+	function loadSky(date) {
+
+		if (!skyFrame) {
+			return;
+		}
+
+
+		skyFrame.src =
+			buildSrc(
+				currentLat,
+				currentLon,
+				date
+			);
+
+	}
+
+
+	/* ============================================================
+	   LIVE SKY
+	   ============================================================ */
+
+	function showLiveSky() {
+
+		currentMode =
+			'live';
+
+
+		loadSky(
+			new Date()
+		);
+
+	}
+
+
+	skyNowBtn?.addEventListener(
+		'click',
+		showLiveSky
+	);
+
+
+	/* ============================================================
+	   TONIGHT
+	   ============================================================ */
+
+	function getTonightDate() {
+
+		const now =
+			new Date();
+
+
+		const tonight =
+			new Date(now);
+
+
+		/*
+			Set to 10 PM local browser time.
+		*/
+
+		tonight.setHours(
+			22,
+			0,
+			0,
+			0
+		);
+
+
+		/*
+			If it is already later than 10 PM,
+			use the current time.
+		*/
+
+		if (
+			now.getTime() >
+			tonight.getTime()
+		) {
+
+			return now;
+
+		}
+
+
+		return tonight;
+
+	}
+
+
+	skyNightBtn?.addEventListener(
+		'click',
+		() => {
+
+			currentMode =
+				'night';
+
+
+			loadSky(
+				getTonightDate()
+			);
+
+		}
+	);
+
+
+	/* ============================================================
+	   RESET
+	   ============================================================ */
+
+	resetBtn?.addEventListener(
+		'click',
+		() => {
+
+			currentMode =
+				'live';
+
+
+			currentLat =
+				DEFAULT_LAT;
+
+			currentLon =
+				DEFAULT_LON;
+
+
+			if (
+				locationLabel
+			) {
+
+				locationLabel.textContent =
+					DEFAULT_LABEL;
+
+			}
+
+
+			if (
+				locateText
+			) {
+
+				locateText.textContent =
+					'Use my location';
+
+			}
+
+
+			loadSky(
+				new Date()
+			);
+
+		}
+	);
+
+
+	/* ============================================================
+	   GEOLOCATION
+	   ============================================================ */
+
+	locateBtn?.addEventListener(
+		'click',
+		() => {
+
+			if (
+				!navigator.geolocation
+			) {
+
+				if (
+					locationLabel
+				) {
+
+					locationLabel.textContent =
+						'Geolocation unavailable';
+
+				}
+
+				return;
+
+			}
+
+
+			locateBtn.disabled =
+				true;
+
+
+			if (
+				locateText
+			) {
+
+				locateText.textContent =
+					'Locating…';
+
+			}
+
+
+			navigator.geolocation
+				.getCurrentPosition(
+
+					(position) => {
+
+						currentLat =
+							Number(
+								position
+									.coords
+									.latitude
+									.toFixed(5)
+							);
+
+
+						currentLon =
+							Number(
+								position
+									.coords
+									.longitude
+									.toFixed(5)
+							);
+
+
+						if (
+							locationLabel
+						) {
+
+							locationLabel.textContent =
+								`Your location · ${currentLat.toFixed(2)}°, ${currentLon.toFixed(2)}°`;
+
+						}
+
+
+						if (
+							locateText
+						) {
+
+							locateText.textContent =
+								'Location active';
+
+						}
+
+
+						locateBtn.disabled =
+							false;
+
+
+						/*
+							Reload whichever mode
+							the user is currently viewing.
+						*/
+
+						if (
+							currentMode ===
+							'night'
+						) {
+
+							loadSky(
+								getTonightDate()
+							);
+
+						}
+						else {
+
+							loadSky(
+								new Date()
+							);
+
+						}
+
+					},
+
+
+					(error) => {
+
+						console.warn(
+							'Geolocation failed:',
+							error
+						);
+
+
+						currentLat =
+							DEFAULT_LAT;
+
+						currentLon =
+							DEFAULT_LON;
+
+
+						if (
+							locationLabel
+						) {
+
+							locationLabel.textContent =
+								'Bhuj, India · location unavailable';
+
+						}
+
+
+						if (
+							locateText
+						) {
+
+							locateText.textContent =
+								'Use my location';
+
+						}
+
+
+						locateBtn.disabled =
+							false;
+
+					},
+
+
+					{
+						enableHighAccuracy:
+							false,
+
+						timeout:
+							8000,
+
+						maximumAge:
+							300000,
+					}
+
+				);
+
+		}
+	);
+
+
+	/* ============================================================
+	   KEEP LIVE SKY FRESH
+	   ============================================================ */
+
+	setInterval(
+		() => {
+
+			/*
+				Do not reload while viewing
+				the tonight mode.
+			*/
+
+			if (
+				currentMode !==
+				'live'
+			) {
+
+				return;
+
+			}
+
+
+			if (
+				skyFrame
+			) {
+
+				skyFrame.src =
+					buildSrc(
+						currentLat,
+						currentLon,
+						new Date()
+					);
+
+			}
+
+		},
+		15 * 60 * 1000
+	);
+
+</script>
+
+
+<style>
+
+	/* ============================================================
+	   COMPONENT
+	   ============================================================ */
+
+	.sky-chart {
+
+		width:
+			100%;
+
+		margin:
+			4rem auto;
+
+	}
+
+
+	/* ============================================================
+	   HEADER
+	   ============================================================ */
+
+	.sky-chart__header {
+
+		display:
+			flex;
+
+		align-items:
+			flex-end;
+
+		justify-content:
+			space-between;
+
+		gap:
+			2rem;
+
+		margin-bottom:
+			1.25rem;
+
+	}
+
+
+	.sky-chart__intro {
+
+		max-width:
+			760px;
+
+	}
+
+
+	.sky-chart__eyebrow {
+
+		display:
+			block;
+
+		margin-bottom:
+			0.45rem;
+
+		font-size:
+			0.72rem;
+
+		font-weight:
+			800;
+
+		letter-spacing:
+			0.15em;
+
+		color:
+			var(--theme-primary);
+
+	}
+
+
+	.sky-chart__header h2 {
+
+		margin:
+			0 0 0.55rem;
+
+		font-size:
+			clamp(
+				1.9rem,
+				4vw,
+				3rem
+			);
+
+		line-height:
+			1.08;
+
+	}
+
+
+	.sky-chart__header p {
+
+		margin:
+			0;
+
+		max-width:
+			680px;
+
+		line-height:
+			1.65;
+
+		color:
+			var(--theme-on-bg-muted);
+
+	}
+
+
+	/* ============================================================
+	   CONTROL AREA
+	   ============================================================ */
+
+	.sky-chart__control-area {
+
+		display:
+			flex;
+
+		flex-direction:
+			column;
+
+		align-items:
+			flex-end;
+
+		gap:
+			0.65rem;
+
+		flex-shrink:
+			0;
+
+	}
+
+
+	.sky-chart__controls {
+
+		display:
+			flex;
+
+		flex-wrap:
+			wrap;
+
+		justify-content:
+			flex-end;
+
+		gap:
+			0.65rem;
+
+	}
+
+
+	/* ============================================================
+	   ACTIVE LOCATION
+	   ============================================================ */
+
+	.sky-chart__active-location {
+
+		display:
+			inline-flex;
+
+		align-items:
+			center;
+
+		gap:
+			0.45rem;
+
+		font-size:
+			0.78rem;
+
+		font-weight:
+			600;
+
+		color:
+			var(--theme-on-bg-muted);
+
+	}
+
+
+	.sky-chart__location-dot {
+
+		width:
+			7px;
+
+		height:
+			7px;
+
+		flex:
+			0 0 auto;
+
+		border-radius:
+			50%;
+
+		background:
+			#52e0a2;
+
+		box-shadow:
+			0 0 8px
+			rgba(
+				82,
+				224,
+				162,
+				0.65
+			);
+
+	}
+
+
+	/* ============================================================
+	   BUTTONS
+	   ============================================================ */
+
+	.sky-chart__button {
+
+		display:
+			inline-flex;
+
+		align-items:
+			center;
+
+		justify-content:
+			center;
+
+		gap:
+			0.45rem;
+
+		min-height:
+			42px;
+
+		padding:
+			0.72rem 1rem;
+
+		border:
+			1px solid
+			transparent;
+
+		border-radius:
+			var(
+				--theme-button-border-radius
+			);
+
+		font:
+			inherit;
+
+		font-size:
+			var(--font-size-sm);
+
+		font-weight:
+			700;
+
+		cursor:
+			pointer;
+
+		transition:
+			transform
+			150ms ease,
+			background-color
+			var(--theme-transition),
+			border-color
+			var(--theme-transition);
+
+	}
+
+
+	.sky-chart__button:hover {
+
+		transform:
+			translateY(-1px);
+
+	}
+
+
+	.sky-chart__button:active {
+
+		transform:
+			translateY(0);
+
+	}
+
+
+	.sky-chart__button:disabled {
+
+		opacity:
+			0.65;
+
+		cursor:
+			wait;
+
+		transform:
+			none;
+
+	}
+
+
+	.sky-chart__button--primary {
+
+		background:
+			var(--theme-accent);
+
+		color:
+			var(--theme-on-primary);
+
+	}
+
+
+	.sky-chart__button--primary:hover {
+
+		background:
+			var(--theme-accent-hover);
+
+	}
+
+
+	.sky-chart__button--secondary {
+
+		background:
+			var(--theme-surface-1);
+
+		border-color:
+			var(--theme-border);
+
+		color:
+			var(--theme-on-bg);
+
+	}
+
+
+	.sky-chart__button--secondary:hover {
+
+		border-color:
+			var(--theme-primary);
+
+	}
+
+
+	/* ============================================================
+	   STELLARIUM VIEWER
+	   ============================================================ */
+
+	.sky-chart__viewer {
+
+		position:
+			relative;
+
+		width:
+			100%;
+
+		height:
+			clamp(
+				600px,
+				78vh,
+				920px
+			);
+
+		overflow:
+			hidden;
+
+		border-radius:
+			18px;
+
+		background:
+			#000;
+
+		border:
+			1px solid
+			rgba(
+				255,
+				255,
+				255,
+				0.12
+			);
+
+		box-shadow:
+			0 30px 80px -35px
+			rgba(
+				0,
+				0,
+				0,
+				0.85
+			);
+
+	}
+
+
+	.sky-chart__viewer iframe {
+
+		position:
+			absolute;
+
+		inset:
+			0;
+
+		width:
+			100%;
+
+		height:
+			100%;
+
+		border:
+			0;
+
+		background:
+			#000;
+
+	}
+
+
+	/* ============================================================
+	   FOOTER
+	   ============================================================ */
+
+	.sky-chart__footer {
+
+		display:
+			flex;
+
+		justify-content:
+			space-between;
+
+		align-items:
+			flex-start;
+
+		gap:
+			2rem;
+
+		margin-top:
+			1rem;
+
+		font-size:
+			0.8rem;
+
+		color:
+			var(--theme-on-bg-muted);
+
+	}
+
+
+	.sky-chart__footer p {
+
+		max-width:
+			780px;
+
+		margin:
+			0;
+
+		line-height:
+			1.6;
+
+	}
+
+
+	.sky-chart__footer span {
+
+		white-space:
+			nowrap;
+
+		opacity:
+			0.75;
+
+	}
+
+
+	/* ============================================================
+	   TABLET
+	   ============================================================ */
+
+	@media (
+		max-width: 960px
+	) {
+
+		.sky-chart__header {
+
+			flex-direction:
+				column;
+
+			align-items:
+				flex-start;
+
+		}
+
+
+		.sky-chart__control-area {
+
+			width:
+				100%;
+
+			align-items:
+				flex-start;
+
+		}
+
+
+		.sky-chart__controls {
+
+			width:
+				100%;
+
+			justify-content:
+				flex-start;
+
+		}
+
+
+		.sky-chart__viewer {
+
+			height:
+				680px;
+
+		}
+
+	}
+
+
+	/* ============================================================
+	   MOBILE
+	   ============================================================ */
+
+	@media (
+		max-width: 560px
+	) {
+
+		.sky-chart {
+
+			margin:
+				2.5rem auto;
+
+		}
+
+
+		.sky-chart__control-area {
+
+			width:
+				100%;
+
+			align-items:
+				stretch;
+
+		}
+
+
+		.sky-chart__controls {
+
+			display:
+				grid;
+
+			grid-template-columns:
+				1fr 1fr;
+
+			width:
+				100%;
+
+		}
+
+
+		.sky-chart__button {
+
+			width:
+				100%;
+
+		}
+
+
+		.sky-chart__button--primary {
+
+			grid-column:
+				1 / -1;
+
+		}
+
+
+		.sky-chart__active-location {
+
+			justify-content:
+				center;
+
+			width:
+				100%;
+
+			padding-top:
+				0.1rem;
+
+		}
+
+
+		.sky-chart__viewer {
+
+			height:
+				580px;
+
+			border-radius:
+				10px;
+
+		}
+
+
+		.sky-chart__footer {
+
+			flex-direction:
+				column;
+
+			gap:
+				0.5rem;
+
+		}
+
+	}
+
+</style>
