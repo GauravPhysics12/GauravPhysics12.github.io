@@ -1,58 +1,40 @@
 ---
 title: 'Testing General Relativity using Gravitational Waves'
-description: 'Exploring the oscillations of spacetime — perturbation theory, Schwarzschild QNMs, numerical methods, and WKB approximation.'
+description: 'Analyzing real LIGO strain data from the GW150914 black hole merger — signal processing, matched filtering, and comparing the observed waveform to General Relativity.'
 publishDate: 'Oct 14 2025'
-tags: ['research', 'black holes', 'QNMs', 'physics']
+tags: ['research', 'gravitational waves', 'LIGO', 'physics']
 featuredImage: '/images/project/gws.jpeg'
-excerpt: 'Black holes are not completely silent. When perturbed, they ring with characteristic frequencies known as Quasinormal Modes (QNMs) — the natural vibrations of spacetime itself. This project explores their origin, mathematical formulation, and numerical computation.'
+excerpt: 'A hands-on analysis of the historic GW150914 detection — extracting a black hole merger signal from raw LIGO strain data and testing it against General Relativity''s predictions using matched filtering.'
 ---
 
-Black holes are not completely silent. When perturbed, they ring with characteristic frequencies known as **Quasinormal Modes (QNMs)** — the natural vibrations of spacetime itself. The study of QNMs provides deep insights into black hole stability, gravitational wave signals, and tests of General Relativity in the strong-field regime.
+On September 14, 2015, the LIGO detectors made the first direct observation of gravitational waves: the merger of two black holes roughly 1.3 billion light-years away, known as **GW150914**. This project works through that event's public data end-to-end — from raw, noisy strain data to a confirmed detection — and uses it to test General Relativity's predictions in the strong-field, highly dynamical regime where two black holes spiral into each other and merge.
 
 In this project, I discuss:
-- **Perturbation Theory:** How small deviations around the Schwarzschild metric lead to wave-like equations governing perturbations.
-- **Schwarzschild QNMs:** Derivation of the Regge–Wheeler and Zerilli equations describing axial and polar perturbations.
-- **Numerical Methods:** Implementation of boundary conditions and numerical integration to extract QNM frequencies.
-- **WKB Approximation:** A semi-analytic method to estimate QNM frequencies.
+- **Raw Strain Data:** Reading in the time-series strain data from both the Hanford (H1) and Livingston (L1) detectors around the time of the event.
+- **Whitening:** Flattening the detector's frequency-dependent noise so that no single frequency band dominates the signal, making a weak astrophysical signal easier to see.
+- **Bandpass Filtering:** Applying high-pass and low-pass filters to remove seismic noise at low frequencies and electronic noise at high frequencies, isolating the frequency band where the signal lives.
+- **Matched Filtering:** Cross-correlating the cleaned data against a bank of theoretical waveform templates — generated from General Relativity's predictions for binary black hole mergers — to pull the signal out of the noise and measure its significance.
+- **Cross-checking H1 and L1:** Confirming the same chirp signal appears in both independent detectors, offset by the light-travel time between them, which rules out a local instrumental glitch.
 
-### Notes and Detailed Derivations
-For readers interested in the detailed mathematics, my full thesis and supplementary notes are available below.
+### The Result
+The matched-filter analysis recovers the now-famous "chirp" — a signal that rises in both frequency and amplitude as the two black holes spiral together before merging — closely matching the waveform predicted by General Relativity for a binary black hole coalescence. This is precisely the kind of strong-field test that QNM ringdown analysis (see my other project) also probes, but from the *inspiral and merger* side of the signal rather than the ringdown.
 
-#### Master's Thesis
-My complete thesis on black hole quasi-normal modes, detailing the full theoretical framework, numerical analysis, and results.
-<a href="/images/project/MS.pdf" class="button-small" target="_blank" rel="noopener noreferrer">
-  Download Thesis
-</a>
+### Notes and Analysis
+For readers interested in the full signal-processing pipeline and analysis code, my detailed notes are available below.
 
-#### Perturbation Theory Notes
-A detailed discussion of metric perturbations, gauge choices, and separation of variables leading to the master wave equation.
-<a href="/images/project-QNM/PerturbationTheory.pdf" class="button-small" target="_blank" rel="noopener noreferrer">
-  Download PDF
-</a>
-
-#### Numerical Methods for QNMs
-A Mathematica notebook demonstrating numerical integration and root-finding for Schwarzschild QNM frequencies.
-<a href="/images/project-QNM/QNM-Numerics.nb" class="button-small" target="_blank" rel="noopener noreferrer">
-  Download Notebook
-</a>
-
-#### WKB Approximation Notes
-Derivation of the WKB approximation for QNMs with examples and comparison to numerical results.
-<a href="/images/project-QNM/WKB-Method.pdf" class="button-small" target="_blank" rel="noopener noreferrer">
-  Download PDF
+<a href="/notes/gw_data_analysis_notes.pdf" class="button-small" target="_blank" rel="noopener noreferrer">
+  Download Analysis Notes
 </a>
 
 ### Acknowledgments
-The structure and mathematical development in this project are influenced by:
-- *K. D. Kokkotas & B. G. Schmidt, “Quasinormal modes of stars and black holes” (Living Reviews in Relativity, 1999)*
-- *S. Chandrasekhar, “The Mathematical Theory of Black Holes”*
-- *E. Berti et al., “Quasinormal modes of black holes and black branes” (Rev. Mod. Phys., 2009)*
+This analysis follows the publicly released GW150914 data and tutorials from the **LIGO Open Science Center (now GWOSC)**, and makes use of **PyCBC** for matched filtering.
+- *B. P. Abbott et al. (LIGO Scientific Collaboration and Virgo Collaboration), "Observation of Gravitational Waves from a Binary Black Hole Merger" (Phys. Rev. Lett., 2016)*
 
-This project is part of my broader research interests in gravitational physics and black hole perturbation theory.
+This project is part of my broader research interests in gravitational physics and tests of General Relativity.
 
 <br />
 
 <blockquote class="clean-quote">
-  "Before I came here, I was confused about this subject. Having listened to your lecture, I am still confused—but on a higher level."
-  <p style="text-align: right; font-style: normal; margin-top: 1rem;">– Enrico Fermi</p>
+  "If you thought that science was certain — well, that is just an error on your part."
+  <p style="text-align: right; font-style: normal; margin-top: 1rem;">– Richard Feynman</p>
 </blockquote>

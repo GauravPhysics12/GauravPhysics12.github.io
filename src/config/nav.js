@@ -16,12 +16,8 @@ export const nav = [
         slug: '/blog',
     },
     {
-        title: 'Notes',
-        slug: '/physics-notes',
-    },
-    {
-        title: 'Codes',
-        slug: '/codes', // ✅ This is the corrected link
+        title: 'Resources',
+        slug: '/resources',
     },
     {
         title: 'Outreach',
