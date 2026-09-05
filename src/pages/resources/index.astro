@@ -3,11 +3,25 @@ import { Container } from '@components/odyssey-theme';
 import Layout from '../../layouts/Page.astro';
 import { getCollection } from 'astro:content';
 import { categories } from '../../config/notes.js';
+import { topics } from '../../config/topics.js';
 
-const codePosts = await getCollection('codes');
-const sortedCodePosts = codePosts.sort(
-	(a, b) => new Date(b.data.publishDate).valueOf() - new Date(a.data.publishDate).valueOf()
-);
+const allCodePosts = await getCollection('codes');
+
+// Group code posts by topic (e.g. "Numerical Relativity") so the Code tab
+// is organized rather than one flat grid. Any code post not claimed by a
+// topic still shows, under "Other".
+const claimedSlugs = new Set(topics.flatMap((t) => t.codeSlugs));
+const codeGroups = topics
+	.map((topic) => ({
+		name: topic.name,
+		posts: topic.codeSlugs.map((slug) => allCodePosts.find((p) => p.slug === slug)).filter(Boolean),
+	}))
+	.filter((group) => group.posts.length > 0);
+
+const otherPosts = allCodePosts.filter((p) => !claimedSlugs.has(p.slug));
+if (otherPosts.length > 0) {
+	codeGroups.push({ name: 'Other', posts: otherPosts });
+}
 ---
 
 <Layout>
@@ -27,21 +41,26 @@ const sortedCodePosts = codePosts.sort(
 		</div>
 
 		<section class="resource-panel" data-panel="code">
-			<div class="posts-grid">
-				{sortedCodePosts.map((post) => (
-					<a href={`/codes/${post.slug}`} class="post-card">
-						{post.data.featuredImage && (
-							<div class="post-card__image-wrap">
-								<img src={post.data.featuredImage} alt={post.data.title} class="post-card__image" />
-							</div>
-						)}
-						<div class="post-card__content">
-							<h3>{post.data.title}</h3>
-							<p>{post.data.excerpt}</p>
-						</div>
-					</a>
-				))}
-			</div>
+			{codeGroups.map((group) => (
+				<div class="code-group">
+					<h2 class="code-group__label">{group.name}</h2>
+					<div class="posts-grid">
+						{group.posts.map((post) => (
+							<a href={`/codes/${post.slug}`} class="post-card">
+								{post.data.featuredImage && (
+									<div class="post-card__image-wrap">
+										<img src={post.data.featuredImage} alt={post.data.title} class="post-card__image" />
+									</div>
+								)}
+								<div class="post-card__content">
+									<h3>{post.data.title}</h3>
+									<p>{post.data.excerpt}</p>
+								</div>
+							</a>
+						))}
+					</div>
+				</div>
+			))}
 		</section>
 
 		<section class="resource-panel" data-panel="notes" hidden>
@@ -133,6 +152,22 @@ const sortedCodePosts = codePosts.sort(
 
 	.resource-panel {
 		margin: 0 auto 4rem;
+	}
+
+	.code-group {
+		margin-bottom: 3rem;
+	}
+	.code-group:last-child {
+		margin-bottom: 0;
+	}
+	.code-group__label {
+		font-size: 1.1rem;
+		text-transform: uppercase;
+		letter-spacing: 0.04em;
+		color: var(--theme-primary);
+		margin: 0 0 1.25rem 0;
+		padding-bottom: 0.75rem;
+		border-bottom: 1px solid var(--theme-border);
 	}
 
 	.posts-grid {
