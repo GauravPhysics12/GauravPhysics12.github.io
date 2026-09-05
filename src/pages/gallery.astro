@@ -3,6 +3,7 @@ import { Container } from '@components/odyssey-theme';
 import Layout from '../layouts/Page.astro';
 import exifr from 'exifr';
 import path from 'node:path';
+import LiveSkyChart from '../components/LiveSkyChart.astro';
 
 // Import all your images
 import fullMoon from '../assets/images/gallery/Full_moon.jpg';
@@ -112,6 +113,9 @@ for (const item of galleryItems) {
 				))}
 			</div>
 		</section>
+	Container>
+		<LiveSkyChart />
+	</Container>
 	</Container>
 
 	<div class="feynman-quote">
