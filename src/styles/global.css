@@ -2,6 +2,7 @@ html {
 	scroll-behavior: smooth;
 	background-color: var(--theme-bg);
 	transition: background-color var(--theme-transition);
+	overflow-x: hidden;
 }
 
 html,
@@ -14,6 +15,7 @@ body {
 	margin: 0 auto;
 	background-color: transparent;
 	position: relative;
+	overflow-x: hidden;
 }
 
 ::selection {

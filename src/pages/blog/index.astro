@@ -42,7 +42,9 @@ const seo = {
 
  <!-- Feynman Quote at the end -->
   <div class="feynman-quote">
-    "Nobody ever figures out what life is all about, and it doesn't matter. Explore the world. Nearly everything is really interesting if you go into it deeply enough." – Richard Feynman
+    <span class="feynman-quote__mark" aria-hidden="true">&ldquo;</span>
+    <p>Nobody ever figures out what life is all about, and it doesn't matter. Explore the world. Nearly everything is really interesting if you go into it deeply enough.</p>
+    <p class="author">— Richard Feynman</p>
   </div>
 </Layout>
 
@@ -55,23 +57,49 @@ const seo = {
 
   .page-hero {
     text-align: center;
-    padding: 3rem 0;
+    padding: 5rem 1rem 3rem;
+  }
+  .page-hero h1 {
+    font-size: clamp(2.25rem, 5vw, 3.25rem);
+    margin-bottom: 0.75rem;
+  }
+  .page-hero p {
+    color: var(--theme-on-bg-muted);
+    max-width: 620px;
+    margin: 0 auto;
   }
 
-  /* Feynman quote styling same as home page */
-.feynman-quote {
-  margin: 4rem 0;
-  font-style: italic;
-  text-align: center;
-  color: var(--theme-text); /* normal text color, not grey */
-  font-size: 1.1rem;
-}
-
-.feynman-quote p:last-child {
-  font-style: normal; /* author not italic */
-  font-weight: 500;
-  margin-top: 1.5rem;
-}
-
+  .feynman-quote {
+    position: relative;
+    margin: 5rem auto;
+    padding: 3rem 1.5rem;
+    max-width: 720px;
+    text-align: center;
+  }
+  .feynman-quote__mark {
+    display: block;
+    font-family: var(--theme-font-family-serif);
+    font-size: 5rem;
+    line-height: 1;
+    color: var(--theme-highlight);
+    opacity: 0.5;
+    margin-bottom: -1rem;
+  }
+  .feynman-quote p:not(.author) {
+    font-style: italic;
+    font-size: 1.3rem;
+    line-height: 1.6;
+    color: var(--theme-on-bg);
+    font-family: var(--theme-font-family-serif);
+  }
+  .feynman-quote .author {
+    font-style: normal;
+    font-weight: 700;
+    margin-top: 1.25rem;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    font-size: var(--font-size-sm);
+    color: var(--theme-primary);
+  }
 </style>
 
